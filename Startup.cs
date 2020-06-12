@@ -67,7 +67,7 @@ namespace TopProjectITI_int40
             });
 
             services.AddControllers();
-            //Admin   >> 1- Category Subjects
+            //Admin   >> 1- Category Subjects hhhh
             services.AddScoped<ICategorySubjectRepository, CategorySubjectRepository>();
             //        >> 2- Subjects
             services.AddScoped<ISubjectRepository, SubjectRepository>();
