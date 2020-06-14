@@ -38,11 +38,6 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
             {
                 return NotFound();
             }
-
-            if (file == null)
-            {
-                return BadRequest("Null File");
-            }
             if (file.Length == 0)
             {
                 return BadRequest("Empty file");

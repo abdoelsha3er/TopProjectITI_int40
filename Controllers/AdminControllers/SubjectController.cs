@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
-using TopProjectITI_int40.Repository.Admin.SubjectRepositories;
+using TopProjectITI_int40.Repository.AdminRepo.SubjectRepositories;
 
 namespace TopProjectITI_int40.Controllers.AdminControllers
 {

@@ -12,11 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TopProjectITI_int40.AppDBContext;
-using TopProjectITI_int40.Repository.Admin.SubjectRepositories;
+using TopProjectITI_int40.Repository.AdminRepo.SubjectRepositories;
 using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterPhonesRepositories;
 using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterSoicalLinkRepositories;
+
 using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterSubjectsRepositories;
-using TopProjectITI_int40.Repository.Parent.Category;
+using TopProjectITI_int40.Repository.AdminRepo.Category;
 using TopProjectITI_int40.Repository.TeacherRepo.TeacherEductionRepositories;
 using TopProjectITI_int40.Repository.TeacherRepo.TeacherExperienceRepositories;
 using TopProjectITI_int40.Repository.TeacherRepo.TeacherPhonesRepositories;
@@ -25,6 +26,8 @@ using TopProjectITI_int40.Repository.TeacherRepo.TeacherSocialLinkRepositories;
 using TopProjectITI_int40.Repository.TeacherRepo.TeacherSubjectRepositories;
 using TopProjectITI_int40.Repository.TeacherRepo.TeacherRegisterRepositories;
 using TopProjectITI_int40.Models;
+using TopProjectITI_int40.Repository.ParentRepo.ParentRepositories;
+using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterGroupRepositories;
 
 namespace TopProjectITI_int40
 {
@@ -95,7 +98,11 @@ namespace TopProjectITI_int40
             services.AddScoped<IEductionalCenterSubjectRepository, EductionalCenterSubjectRepository>();
             //         3-  EductionalCenterSoicalLinks
             services.AddScoped<IEductionalCenterSoicalLinkRepository, EductionalCenterSoicalLinkRepository>();
+            //         4-  Group
+            services.AddScoped<IEductionalCenterGroupRepository, EductionalCenterGroupRepository>();
 
+            // Parent
+            services.AddScoped<IParentRepository, ParentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

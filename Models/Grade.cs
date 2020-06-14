@@ -8,11 +8,11 @@ namespace TopProjectITI_int40.Models
 {
     public class Grade
     {
-        //public int GradeId { get; set; }
-        //[Required(ErrorMessage = "*")]
-        //[StringLength(50, MinimumLength = 2)]
-        //public string Name { get; set; }
-        //public List<Group> Groups { get; set; }
+        public int GradeId { get; set; }
+        [Required(ErrorMessage = "*")]
+        [StringLength(50, MinimumLength = 2)]
+        public string Name { get; set; }
+        public List<EductionalCenterGroup> Groups { get; set; }
         //public List<Student> Students { get; set; }
     }
 }

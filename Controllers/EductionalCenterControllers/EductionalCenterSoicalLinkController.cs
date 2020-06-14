@@ -8,7 +8,7 @@ using TopProjectITI_int40.Models;
 using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterSoicalLinkRepositories;
 using TopProjectITI_int40.Repository.TeacherRepo.TeacherEductionRepositories;
 
-namespace TopProjectITI_int40.Controllers.EductionalCenter
+namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
 {
     [Route("api/[controller]")]
     [ApiController]

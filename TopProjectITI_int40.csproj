@@ -21,9 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Student\" />
-    <Folder Include="Controllers\Parent\" />
     <Folder Include="wwwroot\" />
-    <Folder Include="Repository\Parent\" />
     <Folder Include="Repository\Student\" />
   </ItemGroup>
 

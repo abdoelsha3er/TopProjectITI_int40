@@ -17,5 +17,6 @@ namespace TopProjectITI_int40.Models
         public int GovernmentId { get; set; }
         public Government Government { get; set; }
         public List<Teacher> Teachers { get; set; }
+        public List<Parent> Parents { get; set; }
     }
 }

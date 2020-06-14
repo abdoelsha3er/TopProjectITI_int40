@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TopProjectITI_int40.AppDBContext;
 using TopProjectITI_int40.Models;
 
-namespace TopProjectITI_int40.Repository.Parent.Category
+namespace TopProjectITI_int40.Repository.AdminRepo.Category
 {
     public class CategorySubjectRepository : ICategorySubjectRepository
     {

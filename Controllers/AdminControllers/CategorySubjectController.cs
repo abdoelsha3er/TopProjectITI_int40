@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
-using TopProjectITI_int40.Repository.Parent.Category;
+using TopProjectITI_int40.Repository.AdminRepo.Category;
 
 namespace TopProjectITI_int40.Controllers.AdminControllers
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TopProjectITI_int40.Migrations
 {
-    public partial class createdb1 : Migration
+    public partial class firstcreatetest1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,29 +52,6 @@ namespace TopProjectITI_int40.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Governments", x => x.GovernmentId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Teachers",
-                columns: table => new
-                {
-                    TeacherId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(maxLength: 50, nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
-                    Picture = table.Column<string>(maxLength: 255, nullable: true),
-                    CityId = table.Column<int>(nullable: false),
-                    AddressDetails = table.Column<string>(maxLength: 255, nullable: true),
-                    Gender = table.Column<bool>(nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    About = table.Column<string>(maxLength: 500, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teachers", x => x.TeacherId);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,6 +131,86 @@ namespace TopProjectITI_int40.Migrations
                         column: x => x.GovernmentId,
                         principalTable: "Governments",
                         principalColumn: "GovernmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EductionalCenterSubjects",
+                columns: table => new
+                {
+                    SubjectId = table.Column<int>(nullable: false),
+                    EductionalCenterId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EductionalCenterSubjects", x => new { x.SubjectId, x.EductionalCenterId });
+                    table.ForeignKey(
+                        name: "FK_EductionalCenterSubjects_EductionalCenters_EductionalCenterId",
+                        column: x => x.EductionalCenterId,
+                        principalTable: "EductionalCenters",
+                        principalColumn: "EductionalCenterId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EductionalCenterSubjects_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "SubjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Parents",
+                columns: table => new
+                {
+                    ParentId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Phone = table.Column<string>(maxLength: 11, nullable: false),
+                    Picture = table.Column<string>(nullable: true),
+                    CityId = table.Column<int>(nullable: false),
+                    Street = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Parents", x => x.ParentId);
+                    table.ForeignKey(
+                        name: "FK_Parents_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "CityId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teachers",
+                columns: table => new
+                {
+                    TeacherId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
+                    UserName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    Picture = table.Column<string>(maxLength: 255, nullable: true),
+                    CityId = table.Column<int>(nullable: false),
+                    AddressDetails = table.Column<string>(maxLength: 255, nullable: true),
+                    Gender = table.Column<bool>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    About = table.Column<string>(maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teachers", x => x.TeacherId);
+                    table.ForeignKey(
+                        name: "FK_Teachers_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "CityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -260,30 +317,6 @@ namespace TopProjectITI_int40.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EductionalCenterSubjects",
-                columns: table => new
-                {
-                    SubjectId = table.Column<int>(nullable: false),
-                    EductionalCenterId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EductionalCenterSubjects", x => new { x.SubjectId, x.EductionalCenterId });
-                    table.ForeignKey(
-                        name: "FK_EductionalCenterSubjects_EductionalCenters_EductionalCenterId",
-                        column: x => x.EductionalCenterId,
-                        principalTable: "EductionalCenters",
-                        principalColumn: "EductionalCenterId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EductionalCenterSubjects_Subjects_SubjectId",
-                        column: x => x.SubjectId,
-                        principalTable: "Subjects",
-                        principalColumn: "SubjectId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TeacherSubjects",
                 columns: table => new
                 {
@@ -334,6 +367,11 @@ namespace TopProjectITI_int40.Migrations
                 column: "EductionalCenterId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Parents_CityId",
+                table: "Parents",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Subjects_CategorySubjectId",
                 table: "Subjects",
                 column: "CategorySubjectId");
@@ -360,6 +398,11 @@ namespace TopProjectITI_int40.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Teachers_CityId",
+                table: "Teachers",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeacherSchools_TeacherId",
                 table: "TeacherSchools",
                 column: "TeacherId");
@@ -378,9 +421,6 @@ namespace TopProjectITI_int40.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cities");
-
-            migrationBuilder.DropTable(
                 name: "EductionalCenterPhones");
 
             migrationBuilder.DropTable(
@@ -388,6 +428,9 @@ namespace TopProjectITI_int40.Migrations
 
             migrationBuilder.DropTable(
                 name: "EductionalCenterSubjects");
+
+            migrationBuilder.DropTable(
+                name: "Parents");
 
             migrationBuilder.DropTable(
                 name: "TeacherEductions");
@@ -408,9 +451,6 @@ namespace TopProjectITI_int40.Migrations
                 name: "TeacherSubjects");
 
             migrationBuilder.DropTable(
-                name: "Governments");
-
-            migrationBuilder.DropTable(
                 name: "EductionalCenters");
 
             migrationBuilder.DropTable(
@@ -421,6 +461,12 @@ namespace TopProjectITI_int40.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategorySubjects");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
+
+            migrationBuilder.DropTable(
+                name: "Governments");
         }
     }
 }

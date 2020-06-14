@@ -10,8 +10,8 @@ using TopProjectITI_int40.AppDBContext;
 namespace TopProjectITI_int40.Migrations
 {
     [DbContext(typeof(DBGProjectITI_Int40))]
-    [Migration("20200611104750_teachercitiesmigrate")]
-    partial class teachercitiesmigrate
+    [Migration("20200613134747_firstcreatetest1")]
+    partial class firstcreatetest1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,6 +181,53 @@ namespace TopProjectITI_int40.Migrations
                     b.ToTable("Governments");
                 });
 
+            modelBuilder.Entity("TopProjectITI_int40.Models.Parent", b =>
+                {
+                    b.Property<int>("ParentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(11)")
+                        .HasMaxLength(11);
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ParentId");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Parents");
+                });
+
             modelBuilder.Entity("TopProjectITI_int40.Models.Subject", b =>
                 {
                     b.Property<int>("SubjectId")
@@ -250,6 +297,7 @@ namespace TopProjectITI_int40.Migrations
                         .HasMaxLength(255);
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TeacherId");
@@ -426,6 +474,15 @@ namespace TopProjectITI_int40.Migrations
                     b.HasOne("TopProjectITI_int40.Models.Subject", "Subject")
                         .WithMany("EductionalCenterSubjects")
                         .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TopProjectITI_int40.Models.Parent", b =>
+                {
+                    b.HasOne("TopProjectITI_int40.Models.City", "City")
+                        .WithMany("Parents")
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

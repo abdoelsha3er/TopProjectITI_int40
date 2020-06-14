@@ -21,6 +21,9 @@ namespace TopProjectITI_int40.AppDBContext
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Government> Governments { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Grade> Grades { get; set; }
+
+        // Teachers
         public DbSet<Teacher> Teachers { get; set; }  // 
         public DbSet<TeacherSubjects> TeacherSubjects { get; set; }
         public DbSet<TeacherPhone> TeacherPhones { get; set; }
@@ -29,13 +32,16 @@ namespace TopProjectITI_int40.AppDBContext
         public DbSet<TeacherSchool> TeacherSchools { get; set; }
         public DbSet<TeacherEduction> TeacherEductions { get; set; }
 
-        //center
+        // Eductional Center
         public DbSet<EductionalCenter> EductionalCenters { get; set; }  //
         public DbSet<EductionalCenterPhone> EductionalCenterPhones { get; set; }
         public DbSet<EductionalCenterSubjects> EductionalCenterSubjects { get; set; }
-
         public DbSet<EductionalCenterSoicalLink> EductionalCenterSoicalLinks { get; set; }
+        public DbSet<EductionalCenterGroup> EductionalCenterGroups { get; set; }
 
+
+        // Parent
+        public DbSet<Parent> Parents { get; set; }
 
 
         // use Fluent API for Composit Key

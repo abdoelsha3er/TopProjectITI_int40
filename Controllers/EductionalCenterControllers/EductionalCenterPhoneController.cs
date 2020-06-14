@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
 using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterPhonesRepositories;
 
-namespace TopProjectITI_int40.Controllers.EductionalCenter
+namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
 {
     [Route("api/[controller]")]
     [ApiController]

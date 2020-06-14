@@ -29,5 +29,6 @@ namespace TopProjectITI_int40.Models
         public List<EductionalCenterPhone> EductionalCenterPhones { get; set; }
         public List<EductionalCenterSubjects> EductionalCenterSubjects { get; set; }
         public List<EductionalCenterSoicalLink> EductionalCenterSoicalLinks { get; set; }
+        public List<EductionalCenterGroup> Groups { get; set; }
     }
 }

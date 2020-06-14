@@ -18,5 +18,6 @@ namespace TopProjectITI_int40.Models
         public CategorySubject CategorySubject { get; set; }
         public List<TeacherSubjects> TeacherSubjects { get; set; }
         public List<EductionalCenterSubjects> EductionalCenterSubjects { get; set; }
+        public List<EductionalCenterGroup> Groups { get; set; }
     }
 }

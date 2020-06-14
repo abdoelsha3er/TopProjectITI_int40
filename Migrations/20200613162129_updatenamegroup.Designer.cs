@@ -10,8 +10,8 @@ using TopProjectITI_int40.AppDBContext;
 namespace TopProjectITI_int40.Migrations
 {
     [DbContext(typeof(DBGProjectITI_Int40))]
-    [Migration("20200611105448_teacherusername")]
-    partial class teacherusername
+    [Migration("20200613162129_updatenamegroup")]
+    partial class updatenamegroup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,6 +104,66 @@ namespace TopProjectITI_int40.Migrations
                     b.ToTable("EductionalCenters");
                 });
 
+            modelBuilder.Entity("TopProjectITI_int40.Models.EductionalCenterGroup", b =>
+                {
+                    b.Property<int>("EductionalCenterGroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ArchivedReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<int>("EductionalCenterId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GradeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("PriceInMonth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotleStudents")
+                        .HasColumnType("int")
+                        .HasMaxLength(1000);
+
+                    b.HasKey("EductionalCenterGroupId");
+
+                    b.HasIndex("EductionalCenterId");
+
+                    b.HasIndex("GradeId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("EductionalCenterGroups");
+                });
+
             modelBuilder.Entity("TopProjectITI_int40.Models.EductionalCenterPhone", b =>
                 {
                     b.Property<int>("EductionalCenterPhoneId")
@@ -179,6 +239,70 @@ namespace TopProjectITI_int40.Migrations
                     b.HasKey("GovernmentId");
 
                     b.ToTable("Governments");
+                });
+
+            modelBuilder.Entity("TopProjectITI_int40.Models.Grade", b =>
+                {
+                    b.Property<int>("GradeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("GradeId");
+
+                    b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("TopProjectITI_int40.Models.Parent", b =>
+                {
+                    b.Property<int>("ParentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(11)")
+                        .HasMaxLength(11);
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ParentId");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Parents");
                 });
 
             modelBuilder.Entity("TopProjectITI_int40.Models.Subject", b =>
@@ -398,6 +522,33 @@ namespace TopProjectITI_int40.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TopProjectITI_int40.Models.EductionalCenterGroup", b =>
+                {
+                    b.HasOne("TopProjectITI_int40.Models.EductionalCenter", "EductionalCenter")
+                        .WithMany("Groups")
+                        .HasForeignKey("EductionalCenterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TopProjectITI_int40.Models.Grade", "Grade")
+                        .WithMany("Groups")
+                        .HasForeignKey("GradeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TopProjectITI_int40.Models.Subject", "Subject")
+                        .WithMany("Groups")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TopProjectITI_int40.Models.Teacher", "Teacher")
+                        .WithMany("Groups")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TopProjectITI_int40.Models.EductionalCenterPhone", b =>
                 {
                     b.HasOne("TopProjectITI_int40.Models.EductionalCenter", "EductionalCenter")
@@ -427,6 +578,15 @@ namespace TopProjectITI_int40.Migrations
                     b.HasOne("TopProjectITI_int40.Models.Subject", "Subject")
                         .WithMany("EductionalCenterSubjects")
                         .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TopProjectITI_int40.Models.Parent", b =>
+                {
+                    b.HasOne("TopProjectITI_int40.Models.City", "City")
+                        .WithMany("Parents")
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

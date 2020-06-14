@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
-using TopProjectITI_int40.Repository.Admin.SubjectRepositories;
+using TopProjectITI_int40.Repository.AdminRepo.SubjectRepositories;
 using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterSubjectsRepositories;
 
-namespace TopProjectITI_int40.Controllers.EductionalCenter
+namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
 {
     [Route("api/[controller]")]
     [ApiController]
