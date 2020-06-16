@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
-using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterGroupRepositories;
+using TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterGroupRepositories;
 
 namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TopProjectITI_int40.AppDBContext;
 using TopProjectITI_int40.Models;
 
-namespace TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterPhonesRepositories
+namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterPhonesRepositories
 {
     public class EductionalCenterPhoneRepository :IEductionalCenterPhoneRepository
     {

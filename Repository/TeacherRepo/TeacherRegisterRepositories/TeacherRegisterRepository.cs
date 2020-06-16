@@ -26,6 +26,7 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherRegisterRepositories
         {
             return await _context.Teachers.FindAsync(teacherId);
         }
+        // Edit profile of Teacher
         public async Task EditTeacherProfile(Teacher newTeacher, int id)
         {
             Teacher oldTeacher = await GetTeacherById(id);

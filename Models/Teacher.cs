@@ -52,7 +52,7 @@ namespace TopProjectITI_int40.Models
         public List<TeacherSchool> TeacherSchools { get; set; }
         public List<TeacherEduction> TeacherEductions { get; set; }
         public City City { get; set; }
-        public List<EductionalCenterGroup> Groups { get; set; }
+        public List<EductionalCenterGroup> EductionalCenterGroups { get; set; }
     }
 }
 

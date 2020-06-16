@@ -39,5 +39,6 @@ namespace TopProjectITI_int40.Models
         public Teacher Teacher { get; set; }
         public Subject Subject { get; set; }
         public Grade Grade { get; set; }
+        public List<StudentGroup> StudentsGroups { get; set; }
     }
 }

@@ -22,8 +22,8 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         ///////////////////////
         // Get AllTeacherSchool(id)
         [HttpGet]
-        [Route("GetTeacherSchools")]   // id here will get from teacher who is logined on system
-        public async Task<QueryResult<TeacherSchool>> GetTeacherSchools([FromForm] int teacherId)
+        [Route("GetTeacherSchools/{teacherId}")]   // id here will get from teacher who is logined on system
+        public async Task<QueryResult<TeacherSchool>> GetTeacherSchools(int teacherId)
         {
             var teacherSchools = await _teacherSchoolRepository.GetTeacherSchools(teacherId);
             if (teacherSchools != null)
@@ -59,19 +59,16 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         ////////////////////
         //Delete
         [HttpDelete]
-        [Route("DeleteTeacherSchool")]
-        public async Task<IActionResult> DeleteTeacherSchool([FromForm] TeacherSchool teacherSchool)
+        [Route("DeleteTeacherSchool/{teacherSchoolId}")]
+        public async Task<IActionResult> DeleteTeacherSchool(int teacherSchoolId)
         {
-            TeacherSchool teacherSchoolById = await _teacherSchoolRepository.GetTeacherSchoolById(teacherSchool.TeacherSchoolId);
+            TeacherSchool teacherSchoolById = await _teacherSchoolRepository.GetTeacherSchoolById(teacherSchoolId);
             if (teacherSchoolById == null)
             {
                 return Content("not found , please Check!...");
             }
-            else
-            {
-                await _teacherSchoolRepository.DeleteTeacherSchool(teacherSchoolById);
-                return Ok("Deleted Successfully");
-            }
+            await _teacherSchoolRepository.DeleteTeacherSchool(teacherSchoolById);
+            return Ok("Deleted Successfully");
         }
     }
 }

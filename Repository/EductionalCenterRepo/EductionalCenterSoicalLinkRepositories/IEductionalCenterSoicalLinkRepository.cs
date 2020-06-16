@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TopProjectITI_int40.Models;
 
-namespace TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterSoicalLinkRepositories
+namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterSoicalLinkRepositories
 {
     public interface IEductionalCenterSoicalLinkRepository
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
-using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterPhonesRepositories;
+using TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterPhonesRepositories;
 
 namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
 {
@@ -93,26 +93,5 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
                 return Ok("Deleted Successfully");
             }
         }
-
-
-        //  deleteing by id  
-        ////Delete
-        //[HttpDelete]
-        //[Route("DeleteEductionalCenterPhone/{id}")]
-        //public async Task<IActionResult> DeleteEductionalCenterPhone(/*[FromForm] EductionalCenterPhone eductionalCenterPhone*/ int id)
-        //{
-        //    // check phoneteache is exist in table or no
-        //    EductionalCenterPhone eductionalCenterPhoneById = await _eductionalCenterPhoneRepository.GetEductionalCenterPhoneById(/*eductionalCenterPhone.EductionalCenterPhoneId*/id);
-        //    if (eductionalCenterPhoneById == null)
-        //    {
-        //        return Content("not found , please Check!...");
-        //    }
-        //    else
-        //    {
-        //        await _eductionalCenterPhoneRepository.DeleteEductionalCenterPhone(eductionalCenterPhoneById);
-        //        return Ok("Deleted Successfully");
-        //    }
-        //}
-
     }
 }

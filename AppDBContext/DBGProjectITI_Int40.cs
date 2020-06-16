@@ -39,9 +39,13 @@ namespace TopProjectITI_int40.AppDBContext
         public DbSet<EductionalCenterSoicalLink> EductionalCenterSoicalLinks { get; set; }
         public DbSet<EductionalCenterGroup> EductionalCenterGroups { get; set; }
 
-
         // Parent
         public DbSet<Parent> Parents { get; set; }
+
+        // Student
+        public DbSet<Student> Students { get; set; }
+        public DbSet<StudentSkill> StudentSkills { get; set; }
+        public DbSet<StudentGroup> StudentsGroups { get; set; }
 
 
         // use Fluent API for Composit Key
@@ -62,6 +66,20 @@ namespace TopProjectITI_int40.AppDBContext
             //Eductional Center(M - M) with subject
             modelBuilder.Entity<EductionalCenterSubjects>()
                 .HasKey(ts => new { ts.SubjectId, ts.EductionalCenterId });
+
+            //EductionalCenterGroup(M - M) with Student
+            modelBuilder.Entity<StudentGroup>()
+                .HasKey(sg => new { sg.EductionalCenterGroupId, sg.StudentId});
+
+            modelBuilder.Entity<StudentGroup>()
+                .HasOne(ecg => ecg.EductionalCenterGroup)
+                .WithMany(sg => sg.StudentsGroups)
+                .HasForeignKey(ecg => ecg.EductionalCenterGroupId);
+            modelBuilder.Entity<StudentGroup>()
+                .HasOne(s => s.Student)
+                .WithMany(sg => sg.StudentsGroups)
+                .HasForeignKey(s => s.StudentId);
+
         }
     }
 }

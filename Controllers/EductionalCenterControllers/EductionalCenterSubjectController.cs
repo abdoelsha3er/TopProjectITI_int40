@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
 using TopProjectITI_int40.Repository.AdminRepo.SubjectRepositories;
-using TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterSubjectsRepositories;
+using TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterSubjectsRepositories;
 
 namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
 {

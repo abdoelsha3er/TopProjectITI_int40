@@ -21,14 +21,12 @@ namespace TopProjectITI_int40.Models
         public string Picture { get; set; }
         public string About { get; set; }
         [Required(ErrorMessage = "* Required")]
-        public int GovernmentId { get; set; }
-        [Required(ErrorMessage = "* Required")]
         public int CityId { get; set; }
         [Required(ErrorMessage = "* Required")]
         public string AddressDetails { get; set; }
         public List<EductionalCenterPhone> EductionalCenterPhones { get; set; }
         public List<EductionalCenterSubjects> EductionalCenterSubjects { get; set; }
         public List<EductionalCenterSoicalLink> EductionalCenterSoicalLinks { get; set; }
-        public List<EductionalCenterGroup> Groups { get; set; }
+        public List<EductionalCenterGroup> EductionalCenterGroups { get; set; }
     }
 }

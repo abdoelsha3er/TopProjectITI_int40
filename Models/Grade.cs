@@ -13,6 +13,6 @@ namespace TopProjectITI_int40.Models
         [StringLength(50, MinimumLength = 2)]
         public string Name { get; set; }
         public List<EductionalCenterGroup> Groups { get; set; }
-        //public List<Student> Students { get; set; }
+        public List<Student> Students { get; set; }
     }
 }

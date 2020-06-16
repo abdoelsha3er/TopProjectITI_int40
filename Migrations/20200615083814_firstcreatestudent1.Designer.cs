@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TopProjectITI_int40.AppDBContext;
 
 namespace TopProjectITI_int40.Migrations
 {
     [DbContext(typeof(DBGProjectITI_Int40))]
-    partial class DBGProjectITI_Int40ModelSnapshot : ModelSnapshot
+    [Migration("20200615083814_firstcreatestudent1")]
+    partial class firstcreatestudent1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,21 +348,6 @@ namespace TopProjectITI_int40.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("TopProjectITI_int40.Models.StudentGroup", b =>
-                {
-                    b.Property<int>("EductionalCenterGroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EductionalCenterGroupId", "StudentId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("StudentsGroups");
-                });
-
             modelBuilder.Entity("TopProjectITI_int40.Models.StudentSkill", b =>
                 {
                     b.Property<int>("StudentSkillId")
@@ -678,21 +665,6 @@ namespace TopProjectITI_int40.Migrations
                     b.HasOne("TopProjectITI_int40.Models.Parent", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TopProjectITI_int40.Models.StudentGroup", b =>
-                {
-                    b.HasOne("TopProjectITI_int40.Models.EductionalCenterGroup", "EductionalCenterGroup")
-                        .WithMany("StudentsGroups")
-                        .HasForeignKey("EductionalCenterGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TopProjectITI_int40.Models.Student", "Student")
-                        .WithMany("StudentsGroups")
-                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

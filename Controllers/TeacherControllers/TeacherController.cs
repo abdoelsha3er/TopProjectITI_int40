@@ -25,7 +25,7 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
             this._photoSetting = options.Value; //  
             _host = host;
         }
-        // Add new TeacherEduction to Teacher 
+        // Register to Teacher 
         [HttpPost]
         [Route("TeacherRegister")]
         public async Task<ActionResult> TeacherRegister([FromForm] Teacher teacher, IFormFile file)

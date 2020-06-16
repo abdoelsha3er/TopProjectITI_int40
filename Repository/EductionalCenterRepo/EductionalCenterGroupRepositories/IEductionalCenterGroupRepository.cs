@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TopProjectITI_int40.Models;
 
-namespace TopProjectITI_int40.Repository.EductionalCenter.EductionalCenterGroupRepositories
+namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterGroupRepositories
 {
     public interface IEductionalCenterGroupRepository
     {

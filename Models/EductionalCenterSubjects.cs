@@ -13,7 +13,7 @@ namespace TopProjectITI_int40.Models
         [Key]
         [Column(Order = 0)]
         public int SubjectId { get; set; }
-        [ForeignKey("Teacher")]
+        [ForeignKey("EductionalCenter")]
         [Key]
         [Column(Order = 1)]
         public int EductionalCenterId { get; set; }
