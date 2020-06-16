@@ -21,8 +21,8 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         ///////////////////////
         // Get AllTeacherEduction(id)
         [HttpGet]
-        [Route("GetTeacherEductions")]   // id here will get from teacher who is logined on system
-        public async Task<QueryResult<TeacherEduction>> GetTeacherEductions([FromForm] int teacherId)
+        [Route("GetTeacherEductions/{teacherId}")]   // id here will get from teacher who is logined on system
+        public async Task<QueryResult<TeacherEduction>> GetTeacherEductions( int teacherId)
         {
             var teacherEductions = await _teacherEductionRepository.GetTeacherEductions(teacherId);
             if (teacherEductions != null)
@@ -58,10 +58,10 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         ////////////////////
         //Delete
         [HttpDelete]
-        [Route("DeleteTeacherEduction")]
-        public async Task<IActionResult> DeleteTeacherEduction([FromForm] TeacherEduction teacherEduction)
+        [Route("DeleteTeacherEduction/{teacherEducationId}")]
+        public async Task<IActionResult> DeleteTeacherEduction( int teacherEducationId)
         {
-            TeacherEduction teacherEductionById = await _teacherEductionRepository.GetTeacherEductionById(teacherEduction.TeacherEductionId);
+            TeacherEduction teacherEductionById = await _teacherEductionRepository.GetTeacherEductionById(teacherEducationId);
             if (teacherEductionById == null)
             {
                 return Content("not found , please Check!...");

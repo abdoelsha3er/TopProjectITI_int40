@@ -48,10 +48,10 @@ namespace TopProjectITI_int40.Repository.AdminRepo.SubjectRepositories
             await _context.SaveChangesAsync();
         }
         //get by category id
-        public async Task<QueryResult<Subject>> GetByCategoryId(int Catid)
+        public async Task<QueryResult<Subject>> GetSubjectsByCategoryId(int Catid)
         {
             var result = new QueryResult<Subject>();
-            var query = _context.Subjects.Include(s => s.CategorySubject)
+            var query = _context.Subjects
                 .Where(a => a.CategorySubjectId == Catid).AsQueryable();
             //.Where(a => a.Subject.CategorySubjectId == categorySubjectId)
 

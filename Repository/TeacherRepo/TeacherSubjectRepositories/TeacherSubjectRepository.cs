@@ -40,6 +40,14 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherSubjectRepositories
         //    return result;
         //}
 
+        // get by id,id
+        public async Task<TeacherSubjects> GetTeacherSubjectBtId(int teacherId, int subjectId)
+        {
+            return await _context.TeacherSubjects.FirstOrDefaultAsync(a => a.TeacherId == teacherId && a.SubjectId == subjectId);
+        }
+
+
+
         //Subject GetTeacherSubjectstById(int id); // TeacherId will Selected by teacher login (token) // 
         public async Task<QueryResult<TeacherSubjects>> GetTeacherSubjectst(int teacherId)
         {

@@ -52,10 +52,10 @@ namespace TopProjectITI_int40.Controllers.AdminControllers
         }
         // GetBy id
         [HttpGet]
-        [Route("GetByCategoryId")]
-        public async Task<IActionResult> GetByCategoryId([FromForm] int catid)
+        [Route("GetSubjectsByCategoryId/{catid}")]   // GetSubjectsByCategoryId
+        public async Task<IActionResult> GetSubjectsByCategoryId( int catid)
         {
-            var subjects = await _subjectRepository.GetByCategoryId(catid);
+            var subjects = await _subjectRepository.GetSubjectsByCategoryId(catid);
             if (subjects != null)
             {
                 return Ok(subjects);

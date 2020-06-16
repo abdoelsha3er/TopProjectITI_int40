@@ -11,7 +11,7 @@ namespace TopProjectITI_int40.Repository.AdminRepo.SubjectRepositories
         Task<IEnumerable<Subject>> GetSubjects();
         Task<Subject> GetSubjectById(int id);
         //Subject GetSubjectByIdd(int id);
-        Task<QueryResult<Subject>> GetByCategoryId(int id);
+        Task<QueryResult<Subject>> GetSubjectsByCategoryId(int id);
         Task AddSubject(Subject subject);
         Task EditSubject(Subject newSubject);
         Task DeleteSubject(Subject subject);

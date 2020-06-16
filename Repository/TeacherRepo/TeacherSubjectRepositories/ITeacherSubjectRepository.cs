@@ -14,6 +14,9 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherSubjectRepositories
         //Subject GetSubjectByIdd(int id);
         Task<QueryResult<TeacherSubjects>> GetTeacherSubjectst(int teacherId);
         Task AddTeacherSubject(TeacherSubjects teacherSubject);
+        Task<TeacherSubjects> GetTeacherSubjectBtId(int teacherId, int subjectId);
+        //Task DeleteTeacherSubject(int teacherId, int subjectId);
         Task DeleteTeacherSubject(TeacherSubjects teacherSubject);
+
     }
 }
