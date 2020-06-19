@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TopProjectITI_int40.AppDBContext;
 
 namespace TopProjectITI_int40.Migrations
 {
     [DbContext(typeof(DBGProjectITI_Int40))]
-    partial class DBGProjectITI_Int40ModelSnapshot : ModelSnapshot
+    [Migration("20200617035956_addlogotogroup")]
+    partial class addlogotogroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,8 +138,8 @@ namespace TopProjectITI_int40.Migrations
                     b.Property<int>("PriceInMonth")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");

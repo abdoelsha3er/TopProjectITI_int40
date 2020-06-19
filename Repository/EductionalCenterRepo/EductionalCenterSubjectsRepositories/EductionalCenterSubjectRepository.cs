@@ -15,15 +15,24 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterSu
         {
             _context = context;
         }
+        ////Get All Subjects that assign to this Eductional Center
+        //public async Task<QueryResult<EductionalCenterSubjects>> GetEductionalCenterSubjecsAssign(int eductionalCenterId)
+        //{
+        //    var result = new QueryResult<EductionalCenterSubjects>();
+        //    var query = _context.EductionalCenterSubjects.Include(s => s.Subject).ThenInclude(c => c.CategorySubject)
+        //                .Where(a => a.EductionalCenterId == eductionalCenterId).AsQueryable();
+        //    result.Items = await query.ToListAsync();
+        //    return result;
+        //}
+
         //Get All Subjects that assign to this Eductional Center
-        public async Task<QueryResult<EductionalCenterSubjects>> GetEductionalCenterSubjecsAssign(int eductionalCenterId)
+        public async Task<IEnumerable<EductionalCenterSubjects>> GetEductionalCenterSubjecsAssign(int eductionalCenterId)
         {
-            var result = new QueryResult<EductionalCenterSubjects>();
-            var query = _context.EductionalCenterSubjects.Include(s => s.Subject).ThenInclude(c => c.CategorySubject)
-                        .Where(a => a.EductionalCenterId == eductionalCenterId).AsQueryable();
-            result.Items = await query.ToListAsync();
-            return result;
+            return await _context.EductionalCenterSubjects.Include(c => c.EductionalCenter)
+                                .Include(s => s.Subject)
+                                .Where(a=>a.EductionalCenterId==eductionalCenterId).ToListAsync();
         }
+
         // Add new EductionalCenterSubject to EductionalCenter
         public async Task AddEductionalCenterSubject(EductionalCenterSubjects eductionalCenterSubject)
         {

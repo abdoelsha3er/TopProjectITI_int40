@@ -20,8 +20,8 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         }
         // Get AllTeacherSubjectsNotAssign(id)
         [HttpGet]
-        [Route("GetTeacherExperience")]   // id here will get from teacher who is logined on system
-        public async Task<QueryResult<TeacherExperience>> GetTeacherExperience([FromForm] int teacherId)
+        [Route("GetTeacherExperience/{teacherId}")]   // id here will get from teacher who is logined on system
+        public async Task<QueryResult<TeacherExperience>> GetTeacherExperience( int teacherId)
         {
             var teachrExperiences = await _teacherExperienceRepository.GetTeacherExperience(teacherId);
             if (teachrExperiences != null)
@@ -74,18 +74,18 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
 
         //Delete
         [HttpDelete]
-        [Route("DeleteTeacherExperience")]
-        public async Task<IActionResult> DeleteTeacherExperience([FromForm] TeacherExperience teacherExperience)
+        [Route("DeleteTeacherExperience/{teacherExperienceId}")]
+        public async Task<IActionResult> DeleteTeacherExperience(int teacherExperienceId)
         {
             // check phoneteache is exist in table or no
-            TeacherExperience teacherExperienceById = await _teacherExperienceRepository.GetTeacherExperienceById(teacherExperience.TeacherExperienceId);
+            TeacherExperience teacherExperienceById = await _teacherExperienceRepository.GetTeacherExperienceById(teacherExperienceId);
             if (teacherExperienceById == null)
             {
                 return Content("not found , please Check!...");
             }
             else
             {
-                await _teacherExperienceRepository.DeleteTeacherExperience(teacherExperience);
+                await _teacherExperienceRepository.DeleteTeacherExperience(teacherExperienceById);
                 return Ok("Deleted Successfully");
             }
         }

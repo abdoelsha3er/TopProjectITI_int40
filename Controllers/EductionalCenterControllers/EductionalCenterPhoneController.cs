@@ -78,11 +78,11 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
         }
         //Delete
         [HttpDelete]
-        [Route("DeleteEductionalCenterPhone")]
-        public async Task<IActionResult> DeleteEductionalCenterPhone([FromForm] EductionalCenterPhone eductionalCenterPhone)
+        [Route("DeleteEductionalCenterPhone/{eductionalCenterPhoneId}")]
+        public async Task<IActionResult> DeleteEductionalCenterPhone(int eductionalCenterPhoneId)
         {
             // check phoneteache is exist in table or no
-            EductionalCenterPhone eductionalCenterPhoneById = await _eductionalCenterPhoneRepository.GetEductionalCenterPhoneById(eductionalCenterPhone.EductionalCenterPhoneId);
+            EductionalCenterPhone eductionalCenterPhoneById = await _eductionalCenterPhoneRepository.GetEductionalCenterPhoneById(eductionalCenterPhoneId);
             if (eductionalCenterPhoneById == null)
             {
                 return Content("not found , please Check!...");

@@ -27,9 +27,48 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
             this._photoSetting = options.Value; //  
             _host = host;
         }
+
+        // get by username
+        ///////////////////////
+        // Get AllTeacherEduction(id)
+
+
+        
+
+        [HttpGet]
+        [Route("Profile/{userName}")]   // id here will get from teacher who is logined on system
+        public async Task<IActionResult> GetEductionalCenterByUserName(string userName)
+        {
+            var eductionalcenter = await _eductionalCenterRepository.GetEductionalCenterByUserName(userName);
+            if (eductionalcenter != null)
+            {
+                return Ok(eductionalcenter);  //status 200
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //Get AllTeacherEduction(id)
+        [HttpGet]
+        [Route("GetEductionalCenterById/{eductionalCenterId}")]   // id here will get from teacher who is logined on system
+        public async Task<IActionResult> GetEductionalCenterById(int eductionalCenterId)
+        {
+            var eductionalcenter = await _eductionalCenterRepository.GetEductionalCenterById(eductionalCenterId);
+            if (eductionalcenter != null)
+            {
+                return Ok(eductionalcenter);  //status 200
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         // Register new EductionalCenter 
         [HttpPost]
-        [Route("create")]
+        [Route("Register")]
         public async Task<ActionResult> AddEductionalCenter([FromForm] EductionalCenter eductionalCenter, IFormFile file)
         {
             if (!ModelState.IsValid)
@@ -40,39 +79,46 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
             {
                 return NotFound();
             }
-            if (file.Length == 0)
+            if (file!=null)
             {
-                return BadRequest("Empty file");
-            }
-            if (file.Length > _photoSetting.MaxBytes)
-            {
-                return BadRequest("Max file size exceeded");
-            }
-            if (!_photoSetting.IsSupported(file.FileName))
-            {
-                return BadRequest("Invalid file type");
-            }
-            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "EductionalCenterPictures");
-            if (!Directory.Exists(uploadsFolderPath))
-            {
-                Directory.CreateDirectory(uploadsFolderPath);
-            }
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolderPath, fileName);  // filepath
+                if (file.Length == 0)
+                {
+                    return BadRequest("Empty file");
+                }
+                if (file.Length > _photoSetting.MaxBytes)
+                {
+                    return BadRequest("Max file size exceeded");
+                }
+                if (!_photoSetting.IsSupported(file.FileName))
+                {
+                    return BadRequest("Invalid file type");
+                }
+                var uploadsFolderPath = Path.Combine(_host.WebRootPath, "EductionalCenterPictures");
+                if (!Directory.Exists(uploadsFolderPath))
+                {
+                    Directory.CreateDirectory(uploadsFolderPath);
+                }
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                var filePath = Path.Combine(uploadsFolderPath, fileName);  // filepath
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream); // picture saved to the path (folder)
+                }
+                eductionalCenter.Picture = fileName;
+            }
+            else
             {
-                await file.CopyToAsync(stream); // picture saved to the path (folder)
+                eductionalCenter.Picture = "";  // can make default picture
             }
 
-            eductionalCenter.Picture = fileName;
             await _eductionalCenterRepository.AddEductionalCenter(eductionalCenter);
             return Created("TeacherTable", eductionalCenter);
         }
 
         //Edit
         [HttpPut]
-        [Route("Edit/{eductionalCenterId}")]
+        [Route("EditEductionalCenter/{eductionalCenterId}")]
         public async Task<IActionResult> EditEductionalCenter([FromForm] EductionalCenter eductionalCenter, int eductionalCenterId, IFormFile file)
         {
             EductionalCenter editEductionalCenterById;

@@ -16,7 +16,7 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherSchoolRepositories
             _context = context;
         }
         // get  Teacher TeacherSchools by techerId ,              // >> TeacherId will come from techer login (token)
-        public async Task<QueryResult<TeacherSchool>> GetTeacherSchools(int teacherId)
+        public async Task<QueryResult<TeacherSchool>> GetTeacherSchools(int teacherId) // paga 
         {
             var result = new QueryResult<TeacherSchool>();
             var query = _context.TeacherSchools.Include(t => t.Teacher)

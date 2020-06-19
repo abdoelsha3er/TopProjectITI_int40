@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200615100623_stdggroupfirstcreate.cs" />
     <Compile Remove="Migrations\20200615100623_stdggroupfirstcreate.Designer.cs" />
+    <Compile Remove="Migrations\20200617132321_creategroupstate.cs" />
+    <Compile Remove="Migrations\20200617132321_creategroupstate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

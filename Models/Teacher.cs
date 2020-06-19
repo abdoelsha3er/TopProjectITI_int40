@@ -30,7 +30,7 @@ namespace TopProjectITI_int40.Models
         //                ErrorMessage ="Password must contains Special Charachers and Upper Lower case and numbers!.")]
         public string Password { get; set; }
         [StringLength(255)]
-        public string Picture { get; set; }
+        public string Picture { get; set; }   // string picturename.jpg .png .gif
 
         [Required(ErrorMessage = "* Required")]
         [ForeignKey("City")]

@@ -15,6 +15,12 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherRegisterRepositories
         {
             _context = context;
         }
+
+        // get all teachers
+        public async Task<IEnumerable<Teacher>> GetTeachers()
+        {
+            return await _context.Teachers.ToListAsync();
+        }
         // Add new TeacherEduction
         public async Task TeacherRegister(Teacher teacher)
         {

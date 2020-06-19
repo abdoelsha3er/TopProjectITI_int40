@@ -10,6 +10,7 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterRe
     {
         Task AddEductionalCenter(EductionalCenter eductionalCenter);          // id will get by id
         Task<EductionalCenter> GetEductionalCenterById(int eductionalCenterId);
+        Task<EductionalCenter> GetEductionalCenterByUserName(string userName);
         Task EditEductionalCenter(EductionalCenter newEductionalCenter, int eductionalCenterId);
     }
 }

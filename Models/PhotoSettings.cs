@@ -8,9 +8,9 @@ namespace TopProjectITI_int40.Models
 {
     public class PhotoSettings
     {
-        public int MaxBytes { get; set; }
-        public string[] AcceptedFileTypes { get; set; }
-        public bool IsSupported(string fileName)
+        public int MaxBytes { get; set; }               // for max size
+        public string[] AcceptedFileTypes { get; set; }  // for types extesions .jpg  .png  .
+        public bool IsSupported(string fileName)        // supported or no  .txt  .html  .omg
         {
             return AcceptedFileTypes.Any(s => s == Path.GetExtension(fileName).ToLower());
         }

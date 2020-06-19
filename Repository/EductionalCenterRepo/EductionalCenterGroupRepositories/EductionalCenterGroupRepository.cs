@@ -23,11 +23,23 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterGr
             await _context.EductionalCenterGroups.AddAsync(eductionalCenterGroup);
             await _context.SaveChangesAsync();
         }
+        // get all groups of eductional center by it's id       //  when login , we gets id for center by token
+        public async Task<IEnumerable<EductionalCenterGroup>> GetEductionalCenterGroups(int eductionalCenterId)
+        {
+            return await _context.EductionalCenterGroups.Include(t=>t.Teacher)
+                        .Include(s=>s.Subject)
+                        .Include(g=>g.Grade)
+                        .Where(a => a.EductionalCenterId == eductionalCenterId).ToListAsync();
+        }
 
         // Search By eductionalCenterGroupId
         public async Task<EductionalCenterGroup> GetEductionalCenterGroupById(int eductionalCenterGroupId)
         {
-            return await _context.EductionalCenterGroups.FindAsync(eductionalCenterGroupId);
+            return await _context.EductionalCenterGroups
+                        .Include(t => t.Teacher)
+                        .Include(s => s.Subject)
+                        .Include(g => g.Grade)
+                        .Where(a=> a.EductionalCenterGroupId== eductionalCenterGroupId).FirstOrDefaultAsync();
         }
 
         // Edit

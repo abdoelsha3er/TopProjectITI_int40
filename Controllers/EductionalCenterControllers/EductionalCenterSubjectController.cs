@@ -23,13 +23,13 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
         }
 
         [HttpGet]
-        [Route("GetEductionalCenterSubjecsAssign")]   // id here will get from EductionalCenter who is logined on system
-        public async Task<QueryResult<EductionalCenterSubjects>> GetEductionalCenterSubjecsAssign([FromForm] int eductionalCenterId)
+        [Route("GetEductionalCenterSubjecsAssign/{eductionalCenterId}")]   // id here will get from EductionalCenter who is logined on system
+        public async Task<IEnumerable<EductionalCenterSubjects>> GetEductionalCenterSubjecsAssign(int eductionalCenterId)
         {
-            var eductionalCenterSubjectsNotAssign = await _eductionalCenterSubjectRepository.GetEductionalCenterSubjecsAssign(eductionalCenterId);  // all subjects with eductionalcenter
-            if (eductionalCenterSubjectsNotAssign != null)
+            var eductionalCenterSubjectsAssigned = await _eductionalCenterSubjectRepository.GetEductionalCenterSubjecsAssign(eductionalCenterId);  // all subjects with eductionalcenter
+            if (eductionalCenterSubjectsAssigned != null)
             {
-                return (eductionalCenterSubjectsNotAssign);
+                return (eductionalCenterSubjectsAssigned);
             }
             else
             {

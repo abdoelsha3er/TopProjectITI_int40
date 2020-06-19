@@ -28,12 +28,13 @@ namespace TopProjectITI_int40.Models
         public int GradeId { get; set; }
         [StringLength(250)]
         public string Description { get; set; }
+        public string Logo { get; set; }
         //[MaxLength(1000)]
         public int TotleStudents { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
         public int PriceInMonth { get; set; }
-        public int Status { get; set; }  // Openning - Closed - Archived
+        public string Status { get; set; }  // Openning - Closed - Archived
         public string ArchivedReason { get; set; }    // case for archive , may be cancel , may be archived beacuse it's 
         public EductionalCenter EductionalCenter { get; set; }
         public Teacher Teacher { get; set; }

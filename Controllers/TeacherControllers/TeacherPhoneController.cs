@@ -69,11 +69,11 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         }
         //Delete
         [HttpDelete]
-        [Route("DeleteTeacherPhone")]
-        public async Task<IActionResult> DeleteTeacherPhone([FromForm] TeacherPhone teacherPhone)
+        [Route("DeleteTeacherPhone/{teacherPhoneId}")]
+        public async Task<IActionResult> DeleteTeacherPhone(int teacherPhoneId)
         {
             // check phoneteache is exist in table or no
-            TeacherPhone teacherPhoneById = await _teacherPhonesRepository.GetTeacherPhoneById(teacherPhone.TeacherPhoneId);
+            TeacherPhone teacherPhoneById = await _teacherPhonesRepository.GetTeacherPhoneById(teacherPhoneId);
             if (teacherPhoneById == null)
             {
                 return Content("not found , please Check!...");

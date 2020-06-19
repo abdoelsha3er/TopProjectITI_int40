@@ -58,11 +58,11 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         ////////////////////
         //Delete
         [HttpDelete]
-        [Route("DeleteTeacherSocialLink")]
-        public async Task<IActionResult> DeleteTeacherSocialLink([FromForm] TeacherSocialLink teacherSocialLink)
+        [Route("DeleteTeacherSocialLink/{teacherSocialLinkId}")]
+        public async Task<IActionResult> DeleteTeacherSocialLink(int teacherSocialLinkId)
         {
             // check phoneteache is exist in table or no
-            TeacherSocialLink teacherSocialLinkById = await _teacherSocialLinkRepository.GetTeacherSocialLinkById(teacherSocialLink.TeacherSocialLinkId);
+            TeacherSocialLink teacherSocialLinkById = await _teacherSocialLinkRepository.GetTeacherSocialLinkById(teacherSocialLinkId);
             if (teacherSocialLinkById == null)
             {
                 return Content("not found , please Check!...");

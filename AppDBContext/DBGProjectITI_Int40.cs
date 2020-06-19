@@ -22,7 +22,6 @@ namespace TopProjectITI_int40.AppDBContext
         public DbSet<Government> Governments { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Grade> Grades { get; set; }
-
         // Teachers
         public DbSet<Teacher> Teachers { get; set; }  // 
         public DbSet<TeacherSubjects> TeacherSubjects { get; set; }

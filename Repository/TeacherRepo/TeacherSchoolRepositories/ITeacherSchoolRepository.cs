@@ -8,9 +8,9 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherSchoolRepositories
 {
     public interface ITeacherSchoolRepository
     {
-        Task<QueryResult<TeacherSchool>> GetTeacherSchools(int teacherId); // 
-        Task<TeacherSchool> GetTeacherSchoolById(int teacherSchoolId); //
+        Task<QueryResult<TeacherSchool>> GetTeacherSchools(int teacherId); //   token id = 1
+        Task<TeacherSchool> GetTeacherSchoolById(int teacherSchoolId); //  // delete
         Task AddTeacherSchool(TeacherSchool teacherSchool);
-        Task DeleteTeacherSchool(TeacherSchool teacherSchool);
+        Task DeleteTeacherSchool(TeacherSchool teacherSchool);  // GetTeacherSchoolById(1)
     }
 }

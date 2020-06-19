@@ -28,6 +28,10 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterRe
         {
             return await _context.EductionalCenters.FindAsync(eductionalCenterId);
         }
+        public async Task<EductionalCenter> GetEductionalCenterByUserName(string userName)
+        {
+            return await _context.EductionalCenters.FirstOrDefaultAsync(a => a.UserName == userName);
+        }
         // Edit profile of      // id gets from token when login, can't be able edit any profile 
         public async Task EditEductionalCenter(EductionalCenter newEductionalCenter, int eductionalCenterId)
         {
