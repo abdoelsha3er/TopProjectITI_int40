@@ -68,7 +68,7 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
 
         // Register new EductionalCenter 
         [HttpPost]
-        [Route("Register")]
+        [Route("AddEductionalCenter")]
         public async Task<ActionResult> AddEductionalCenter([FromForm] EductionalCenter eductionalCenter, IFormFile file)
         {
             if (!ModelState.IsValid)

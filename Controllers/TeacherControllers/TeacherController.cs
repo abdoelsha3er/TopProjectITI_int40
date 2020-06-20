@@ -25,7 +25,7 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
             this._photoSetting = options.Value; //  
             _host = host;
         }
-
+        // get all teacher in system
         [HttpGet]
         [Route("GetTeachers")]
         public async Task<IEnumerable<Teacher>> GetTeachers()

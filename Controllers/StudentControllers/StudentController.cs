@@ -25,6 +25,21 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             _photoSetting = options.Value;
             _host = host;
         }
+        // Get All Students in system
+        [HttpGet]
+        [Route("GetAllStudents")]
+        public async Task<IEnumerable<Student>> GetAllStudents()
+        {
+            if (ModelState.IsValid)
+            {
+                IEnumerable<Student> students = await _studentRepository.GetAllStudents();
+                if (students != null)
+                    return students;
+                return null;
+            }
+            return null;
+        }
+
 
         [HttpPost]
         [Route("AddStudent")]
