@@ -109,7 +109,7 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             }
             else if (studentById.Picture != null)
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\StudentImage", studentById.Picture);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\StudentImages", studentById.Picture);
                 if (System.IO.File.Exists(path))
                 {
                     System.IO.File.Delete(path);
@@ -131,12 +131,12 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             {
                 return BadRequest("Invalid file type");
             }
-            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "StudentImage");
+            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "StudentImages");
             if (!Directory.Exists(uploadsFolderPath))
             {
                 Directory.CreateDirectory(uploadsFolderPath);
             }
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);//af08e9df-721d-4020-96cb-5c5c705e3db3.jpg
             var filePath = Path.Combine(uploadsFolderPath, fileName);  // filepath
 
             using (var stream = new FileStream(filePath, FileMode.Create))

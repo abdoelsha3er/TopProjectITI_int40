@@ -55,6 +55,7 @@ namespace TopProjectITI_int40.Repository.StudentRepo.StudentRepositories
             oldStudent.DateOfBirth = student.DateOfBirth;
             oldStudent.School = student.School;
             oldStudent.GradeId = student.GradeId;
+            oldStudent.Picture = student.Picture;
             // oldStudent.Education = student.Education;
             oldStudent.DegreeOfLastYear = student.DegreeOfLastYear;
             _context.Students.Update(oldStudent);
@@ -64,7 +65,7 @@ namespace TopProjectITI_int40.Repository.StudentRepo.StudentRepositories
 
         public async Task<Student> GetStudentById(int studentId)
         {
-            return await _context.Students.FirstOrDefaultAsync(s => s.StudentId == studentId);
+            return await _context.Students.Include(g=>g.Grade).FirstOrDefaultAsync(s => s.StudentId == studentId);
         }
         // get students of parent by ParentId
         public async Task<IEnumerable<Student>> GetStudents(int id)
