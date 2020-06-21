@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -154,6 +156,20 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
                 await file.CopyToAsync(stream); // picture saved to the path (folder)
             }
             teacher.Picture = fileName;
+            // hash password
+            string password = teacher.Password;
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+           password: password,
+           salt: salt,
+           prf: KeyDerivationPrf.HMACSHA1,
+           iterationCount: 10000,
+           numBytesRequested: 256 / 8));
+            teacher.Password = hashed;
             await _teacherRegisterRepository.EditTeacherProfile(teacher, teacherId);
             return Created("TeacherTable", teacher);
         }

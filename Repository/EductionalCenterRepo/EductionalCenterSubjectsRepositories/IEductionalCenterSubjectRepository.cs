@@ -10,7 +10,7 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterSu
     {
         // Get All Subjects that not assign to this EductionalCenter        //eductionalCenterId >> token when login
         //Task<QueryResult<EductionalCenterSubjects>> GetEductionalCenterSubjecsAssign(int eductionalCenterId);
-
+        Task<EductionalCenterSubjects> GetEductionalCenterSubject(int subjectId, int eductionalCenterId);
         Task<IEnumerable<EductionalCenterSubjects>> GetEductionalCenterSubjecsAssign(int eductionalCenterId);
         Task AddEductionalCenterSubject(EductionalCenterSubjects eductionalCenterSubject);
         Task DeleteEductionalCenterSubject(EductionalCenterSubjects eductionalCenterSubject);

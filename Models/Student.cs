@@ -19,8 +19,6 @@ namespace TopProjectITI_int40.Models
         public DateTime DateOfBirth { get; set; }
         [Required(ErrorMessage = "* Required")]
         public string School { get; set; }
-        [Required(ErrorMessage = "* Required")]
-        public string Education { get; set; }
         public int DegreeOfLastYear { get; set; }
         public string Picture { get; set; }
         [Required(ErrorMessage = "* Required")]

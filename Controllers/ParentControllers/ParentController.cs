@@ -120,5 +120,19 @@ namespace TopProjectITI_int40.Controllers.ParentControllers
             }
             return BadRequest();
         }
+
+        [HttpGet]
+        [Route("Details/{id}")]
+        public async Task<ActionResult> selectParentDetails(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Parent parent = await _parentRepository.parentDetails(id);
+                if (parent != null)
+                    return Created("Parent Table", parent);
+                return NotFound();
+            }
+            return BadRequest();
+        }
     }
 }

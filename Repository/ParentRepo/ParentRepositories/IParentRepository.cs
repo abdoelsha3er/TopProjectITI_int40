@@ -15,5 +15,6 @@ namespace TopProjectITI_int40.Repository.ParentRepo.ParentRepositories
         Task EditParent(Parent parent, int parentId);
         Task DeleteParent(int parentId);
         Task<Parent> CheckParentLogin(string userName, string password);
+        Task<Parent> parentDetails(int id);
     }
 }

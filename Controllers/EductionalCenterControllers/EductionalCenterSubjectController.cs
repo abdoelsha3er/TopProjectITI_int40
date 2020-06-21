@@ -57,14 +57,40 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
             }
             return BadRequest();
         }
-        //Delete EductionalCenterSubject
-        [HttpDelete]
-        [Route("DeleteEductionalCenterSubject")]
-        public async Task<IActionResult> DeleteEductionalCenterSubject([FromForm] EductionalCenterSubjects eductionalCenterSubject)
-        {
-            if (ModelState.IsValid)
-            {
+        ////Delete EductionalCenterSubject
+        //[HttpDelete]
+        //[Route("DeleteEductionalCenterSubject/{eductionalCenterSubjectId}")]
+        //public async Task<IActionResult> DeleteEductionalCenterSubject(int eductionalCenterSubjectId)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //var eductionalCenterSubject = _eductionalCenterSubjectRepository.GetEductionalCenterSubjecsAssign
+        //        if (eductionalCenterSubject != null)
+        //        {
+        //            await _eductionalCenterSubjectRepository.DeleteEductionalCenterSubject(eductionalCenterSubject);
+        //            return Ok("Deleted Successfully");
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //    return BadRequest();
+        //}
 
+
+        // Delete Student from Group
+        [HttpDelete]
+        [Route("DeleteEductionalCenterSubject/{subjectId}")]
+        public async Task<IActionResult> DeleteEductionalCenterSubject(int subjectId, [FromForm] int eductionalCenterId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                var eductionalCenterSubject = await _eductionalCenterSubjectRepository.GetEductionalCenterSubject(subjectId, eductionalCenterId);
                 if (eductionalCenterSubject != null)
                 {
                     await _eductionalCenterSubjectRepository.DeleteEductionalCenterSubject(eductionalCenterSubject);
@@ -72,54 +98,11 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
                 }
                 else
                 {
-                    return NotFound();
+                    return NoContent();
                 }
             }
-            return BadRequest();
         }
 
-
-
-
-
-
-        //// Get AllEductionalCenterSubjectsNotAssign(id)
-        //[HttpGet]
-        //[Route("GetEductionalCenterSubjecsNotAssign")]   // id here will get from teacher who is logined on system
-        //public async Task<QueryResult<EductionalCenterSubjects>> GetEductionalCenterSubjecsNotAssign([FromForm] int eductionalCenterId, [FromForm] int categorySubjectId)
-        //{
-        //    var eductionalCenterSubjectsNotAssign = await _eductionalCenterSubjectRepository.GetEductionalCenterSubjecsNotAssign(eductionalCenterId, categorySubjectId);
-        //    if (eductionalCenterSubjectsNotAssign != null)
-        //    {
-        //        return (eductionalCenterSubjectsNotAssign);
-        //    }
-        //    else
-        //    {
-        //        //return (teacherSubectsNotAssign);
-        //        return null;
-        //    }
-        //}
-
-        //[HttpGet]
-        //[Route("GetTeacherSubjectsNotAssign2")]   // id here will get from teacher who is logined on system
-        //public async Task<QueryResult<EductionalCenterSubjects>> GetTeacherSubjectsNotAssign2([FromForm] int id, [FromForm] int csid)
-        //{
-        //    var eductionalCenterSubjectsNotAssign = await _eductionalCenterSubjectRepository.GetEductionalCenterSubjecsAssign(id);  // all subjects with eductionalcenter
-        //    var allSubjects = await _subjectRepository.GetByCategoryId(csid);   // all subjecs
-        //    if (eductionalCenterSubjectsNotAssign != null && allSubjects !=null)
-        //    {
-        //        foreach (var item in allSubjects)
-        //        {
-        //            return item;
-        //        }
-        //        return (eductionalCenterSubjectsNotAssign);
-        //    }
-        //    else
-        //    {
-        //        //return (teacherSubectsNotAssign);
-        //        return null;
-        //    }
-        //}
 
 
     }

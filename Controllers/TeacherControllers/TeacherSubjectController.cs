@@ -41,7 +41,7 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         [Route("GetTeacherSubjectst/{teacherId}")]    // TeacherId will Selected by teacher login (token) 
         public async Task<QueryResult<TeacherSubjects>> GetTeacherSubjectst(int teacherId)
         {
-            var teachersubects = await _teacherSubjectRepository.GetTeacherSubjectst(teacherId);
+            var teachersubects = await _teacherSubjectRepository.GetTeacherSubjects(teacherId);
             if (teachersubects != null)
             {
                 return (teachersubects);

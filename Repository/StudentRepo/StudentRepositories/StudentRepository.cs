@@ -54,7 +54,8 @@ namespace TopProjectITI_int40.Repository.StudentRepo.StudentRepositories
             oldStudent.Password = student.Password;
             oldStudent.DateOfBirth = student.DateOfBirth;
             oldStudent.School = student.School;
-            oldStudent.Education = student.Education;
+            oldStudent.GradeId = student.GradeId;
+            // oldStudent.Education = student.Education;
             oldStudent.DegreeOfLastYear = student.DegreeOfLastYear;
             _context.Students.Update(oldStudent);
             // _context.Entry(oldParent).State = EntityState.Modified;

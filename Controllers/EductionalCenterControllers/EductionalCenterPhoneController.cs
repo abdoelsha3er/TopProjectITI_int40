@@ -20,10 +20,10 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
         }
         // Get AllEductionalCenterPhone(eductionalCenterPhoneId)
         [HttpGet]
-        [Route("GetEductionalCenterPhones/{eductionalCenterPhoneId}")]   // id here will get from teacher who is logined on system
-        public async Task<QueryResult<EductionalCenterPhone>> GetEductionalCenterPhones(int eductionalCenterPhoneId)
+        [Route("GetEductionalCenterPhones/{eductionalCenterId}")]   // id here will get from teacher who is logined on system
+        public async Task<QueryResult<EductionalCenterPhone>> GetEductionalCenterPhones(int eductionalCenterId)
         {
-            var eductionalCenterPhones = await _eductionalCenterPhoneRepository.GetEductionalCenterPhones(eductionalCenterPhoneId);
+            var eductionalCenterPhones = await _eductionalCenterPhoneRepository.GetEductionalCenterPhones(eductionalCenterId);
             if (eductionalCenterPhones != null)
             {
                 return (eductionalCenterPhones);

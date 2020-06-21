@@ -58,5 +58,9 @@ namespace TopProjectITI_int40.Repository.ParentRepo.ParentRepositories
         {
             throw new NotImplementedException();
         }
+        public async Task<Parent> parentDetails(int id)
+        {
+            return await GetParentById(id);
+        }
     }
 }

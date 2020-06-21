@@ -12,9 +12,9 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherSubjectRepositories
         Task<QueryResult<TeacherSubjects>> GetTeacherSubjectsNotAssign(int teacherId, int categorySubjectId);
         //Task<QueryResult<TeacherSubjects>> GetTeacherSubjectsNotAssign(int teacherId);
         //Subject GetSubjectByIdd(int id);
-        Task<QueryResult<TeacherSubjects>> GetTeacherSubjectst(int teacherId);
+        Task<QueryResult<TeacherSubjects>> GetTeacherSubjects(int teacherId);
         Task AddTeacherSubject(TeacherSubjects teacherSubject);
-        Task<TeacherSubjects> GetTeacherSubjectBtId(int teacherId, int subjectId);
+        Task<TeacherSubjects> GetTeacherSubject(int teacherId, int subjectId);
         //Task DeleteTeacherSubject(int teacherId, int subjectId);
         Task DeleteTeacherSubject(TeacherSubjects teacherSubject);
 

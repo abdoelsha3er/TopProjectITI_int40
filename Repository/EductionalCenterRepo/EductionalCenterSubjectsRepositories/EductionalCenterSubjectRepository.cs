@@ -33,6 +33,13 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterSu
                                 .Where(a=>a.EductionalCenterId==eductionalCenterId).ToListAsync();
         }
 
+        // Get by id id
+
+        public async Task<EductionalCenterSubjects> GetEductionalCenterSubject(int subjectId, int eductionalCenterId)
+        {
+            return await _context.EductionalCenterSubjects.FirstOrDefaultAsync(es => es.SubjectId == subjectId&& es.EductionalCenterId == eductionalCenterId);
+        }
+
         // Add new EductionalCenterSubject to EductionalCenter
         public async Task AddEductionalCenterSubject(EductionalCenterSubjects eductionalCenterSubject)
         {

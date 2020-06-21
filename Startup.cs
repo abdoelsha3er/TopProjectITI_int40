@@ -31,6 +31,7 @@ using TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterGroupR
 using TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterRepositories;
 using TopProjectITI_int40.Repository.StudentRepo.StudentRepositories;
 using TopProjectITI_int40.Repository.StudentRepo.StudentsGroupsRepositories;
+using TopProjectITI_int40.Repository.StudentRepo.StudentSkillsRepositories;
 
 namespace TopProjectITI_int40
 {
@@ -115,6 +116,8 @@ namespace TopProjectITI_int40
             services.AddScoped<IStudentRepository, StudentRepository>();
             //         2 - Student Group
             services.AddScoped<IStudentsGroupsRepository, StudentsGroupsRepository>();
+            //         3 - Student Skills
+            services.AddScoped<IStudentSillsRepository, StudentSkillsRepository>();
 
         }
 

@@ -27,12 +27,12 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
         }
         // Get All Students in system
         [HttpGet]
-        [Route("GetAllStudents")]
-        public async Task<IEnumerable<Student>> GetAllStudents()
+        [Route("Students/{id}")]
+        public async Task<IEnumerable<Student>> GetAllStudents(int id)
         {
             if (ModelState.IsValid)
             {
-                IEnumerable<Student> students = await _studentRepository.GetAllStudents();
+                IEnumerable<Student> students = await _studentRepository.GetStudents(id);
                 if (students != null)
                     return students;
                 return null;
@@ -40,7 +40,7 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             return null;
         }
 
-
+        // Register New Studet
         [HttpPost]
         [Route("AddStudent")]
         public async Task<ActionResult> AddStudent([FromForm] Student student, IFormFile file)
@@ -85,19 +85,71 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             await _studentRepository.AddStudent(student);
             return Created("Student Table", student);
         }
+
+
+        // Edit
         [HttpPut]
-        [Route("EditStudent/{StudentId}")]
-        public async Task<ActionResult> editStudent([FromForm] Student student, int StudentId)
+        [Route("EditStudent/{ParentId}/{StudentId}")]
+        public async Task<IActionResult> EditStudentProfile([FromForm] Student student, int ParentId, int StudentId, IFormFile file)
         {
-            Student studentById = await _studentRepository.GetStudentById(StudentId);
-            if (studentById != null)
+            Student studentById;
+
+            if (!ModelState.IsValid)
             {
-                await _studentRepository.EditStudent(studentById, student);
-                return Ok(studentById);
+                return BadRequest(ModelState);
             }
-            return NotFound();
+            if (StudentId == 0 && ParentId == 0)
+            {
+                return NotFound();
+            }
+            studentById = await _studentRepository.GetStudentById(StudentId);  //GetTeacherPhoneById search
+            if (studentById == null && studentById.ParentId != ParentId)
+            {
+                return Content("not found , please Check!...");
+            }
+            else if (studentById.Picture != null)
+            {
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\StudentImage", studentById.Picture);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+            }
+            if (student == null)
+            {
+                return Content("not found , please Check!...");
+            }
+            if (file.Length == 0)
+            {
+                return BadRequest("Empty file");
+            }
+            if (file.Length > _photoSetting.MaxBytes)
+            {
+                return BadRequest("Max file size exceeded");
+            }
+            if (!_photoSetting.IsSupported(file.FileName))
+            {
+                return BadRequest("Invalid file type");
+            }
+            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "StudentImage");
+            if (!Directory.Exists(uploadsFolderPath))
+            {
+                Directory.CreateDirectory(uploadsFolderPath);
+            }
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(uploadsFolderPath, fileName);  // filepath
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream); // picture saved to the path (folder)
+            }
+            student.Picture = fileName;
+            await _studentRepository.EditStudent(studentById, student);
+            return Ok(studentById);
+
         }
-        // Delete Parent by Id
+
+
 
         // Check login 
         [HttpPost]
@@ -118,37 +170,37 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             }
             return BadRequest();
         }
+        
         // get Details by id
         [HttpGet]
-        [Route("Details/{id}")]
-        public async Task<IActionResult> selectStudentDetails(int id)
+        [Route("Details/{parentId}/{studentId}")]
+        public async Task<ActionResult> selectStudentDetails(int parentId, int studentId)
         {
             if (ModelState.IsValid)
             {
-                Student student = await _studentRepository.studentDetails(id);
-                if (student != null)
+                Student student = await _studentRepository.studentDetails(studentId);
+                if (student != null && student.ParentId == parentId)
                 {
-                    return Ok(student);
+                    int i = GetAge(DateTime.Now, student.DateOfBirth);
+                    if (i == 0)
+                        i = 1;
+                    student.DateOfBirth = new DateTime(1, 1, i);
+                    return Created("Student Table", student);
                 }
-
                 return NotFound();
             }
+
             return BadRequest();
         }
 
-        [HttpGet]
-        [Route("Students/{id}")]
-        public async Task<IEnumerable<Student>> GetAllStudents(int id)
+        // Get Age 
+        public static int GetAge(DateTime reference, DateTime birthday)
         {
-            if (ModelState.IsValid)
-            {
-                IEnumerable<Student> students = await _studentRepository.GetStudents(id);
-                if (students != null)
-                    return students;
-                return null;
-            }
-            return null;
+            int age = reference.Year - birthday.Year;
+            if (reference < birthday.AddYears(age)) age--;
 
+            return age;
         }
+
     }
 }
