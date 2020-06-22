@@ -42,6 +42,25 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
             }
             return null;
         }
+
+        // Get Groups of Center to Assign 
+        [HttpGet]
+        [Route("GetGroupsByCenterIDGradeIdSubjectID/{eductionalCenterId}/{gradeId}/{subjectid}")]
+        public async Task<IActionResult> GetGroupsByCenterIDGradeIdSubjectID(int eductionalCenterId, int gradeId, int subjectid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                IEnumerable<EductionalCenterGroup> groups = await _eductionalCenterGroupRepository.GetGroupsByCenterIDGradeIdSubjectID(eductionalCenterId, gradeId, subjectid);
+                if (groups != null)
+                    return Ok(groups);
+                return Content("Not Found Data");
+            }
+        }
+
         // get by eductionalcenterGroupById
         [HttpGet]
         [Route("GetEductionalCenterGroupById/{eductionalCenterGroupId}")]

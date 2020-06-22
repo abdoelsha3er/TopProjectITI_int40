@@ -10,6 +10,7 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterGr
     public interface IEductionalCenterGroupRepository
     {
         Task<IEnumerable<EductionalCenterGroup>> GetEductionalCenterGroups(int eductionalCenterId);
+        Task<IEnumerable<EductionalCenterGroup>> GetGroupsByCenterIDGradeIdSubjectID(int eductionalCenterGroupId, int gradeId, int subjectid);
         Task AddEductionalCenterGroup(EductionalCenterGroup eductionalCenterGroup);
         Task<EductionalCenterGroup> GetEductionalCenterGroupById(int eductionalCenterGroupId);   // eductionalcentergroup
         Task EditEductionalCenterGroup(EductionalCenterGroup eductionalCenterGroup, int eductionalCenterGroupId);

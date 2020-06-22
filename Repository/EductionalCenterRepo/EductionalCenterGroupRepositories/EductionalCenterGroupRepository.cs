@@ -42,6 +42,16 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterGr
                         .Where(a=> a.EductionalCenterGroupId== eductionalCenterGroupId).FirstOrDefaultAsync();
         }
 
+        // gar all groups centerId, gradeid , subjectId
+        public async Task<IEnumerable<EductionalCenterGroup>> GetGroupsByCenterIDGradeIdSubjectID(int eductionalCenterId, int gradeId, int subjectid)
+        {
+            return await _context.EductionalCenterGroups
+                        .Include(c => c.EductionalCenter)
+                        .Include(s => s.Subject)
+                        .Include(gr => gr.Grade)
+                        .Where(g => g.EductionalCenterId == eductionalCenterId && g.GradeId == gradeId && g.SubjectId == subjectid)
+                        .ToListAsync();
+        }
         // Edit
         public async Task EditEductionalCenterGroup(EductionalCenterGroup newEductionalCenterGroup, int eductionalCenterGroupId)  // for editing profile
         {

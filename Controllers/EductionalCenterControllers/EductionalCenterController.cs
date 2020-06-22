@@ -28,12 +28,25 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
             _host = host;
         }
 
-        // get by username
-        ///////////////////////
+        // Get All Eductional Centers
+        [HttpGet]
+        [Route("GetEductionalCenters")]
+        public async Task<IActionResult> GetEductionalCenters()
+        {
+            IEnumerable<EductionalCenter> eductionalCenters = await _eductionalCenterRepository.GetEductionalCenters();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                return Ok(eductionalCenters);
+            }
+        }
         // Get AllTeacherEduction(id)
 
 
-        
+
 
         [HttpGet]
         [Route("Profile/{userName}")]   // id here will get from teacher who is logined on system

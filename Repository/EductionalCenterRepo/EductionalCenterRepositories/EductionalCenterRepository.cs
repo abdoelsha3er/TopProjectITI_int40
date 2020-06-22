@@ -23,6 +23,11 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterRe
             await _context.SaveChangesAsync();
         }
 
+        // Get All Eductional Centers
+        public async Task<IEnumerable<EductionalCenter>> GetEductionalCenters()
+        {
+            return await _context.EductionalCenters.ToListAsync();
+        }
         // get by EductionalCenter id   // will get from token when logined   // may use it in profile EductionalCenter>> id will from token
         public async Task<EductionalCenter> GetEductionalCenterById(int eductionalCenterId)
         {

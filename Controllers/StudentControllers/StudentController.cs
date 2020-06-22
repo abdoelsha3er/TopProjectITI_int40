@@ -40,6 +40,22 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             return null;
         }
 
+        // get all students by gradeid
+        [HttpGet]
+        [Route("GetStudentsByGradeId/{gradeId}")]
+        public async Task<IEnumerable<Student>> GetStudentsByGradeId(int gradeId)
+        {
+            if (ModelState.IsValid)
+            {
+                IEnumerable<Student> students = await _studentRepository.GetStudentsByGradeId(gradeId);
+                if (students != null)
+                    return students;
+                return null;
+            }
+            return null;
+
+        }
+
         // Register New Studet
         [HttpPost]
         [Route("AddStudent")]

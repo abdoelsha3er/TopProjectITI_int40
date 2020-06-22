@@ -18,6 +18,8 @@ namespace TopProjectITI_int40.Models
         [Key]
         [Column(Order = 1)]
         public int StudentId { get; set; }
+        [Required(ErrorMessage =("* Required!!"))]
+        public bool IsJoined { get; set; }
         public EductionalCenterGroup EductionalCenterGroup { get; set; }
         public Student Student { get; set; }
     }

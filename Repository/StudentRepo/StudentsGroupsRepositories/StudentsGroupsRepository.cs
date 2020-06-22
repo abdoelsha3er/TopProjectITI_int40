@@ -35,7 +35,8 @@ namespace TopProjectITI_int40.Repository.StudentRepo.StudentsGroupsRepositories
         public async Task<StudentGroup> GetStudentGroup(int groupId, int studentId)
         {
             return await _context.StudentsGroups.FirstOrDefaultAsync(sg => sg.EductionalCenterGroupId == groupId && sg.StudentId == studentId);
-        }
+        }   
+
         // Add Stuedents to Group
         public async Task AddStudentToGroup(StudentGroup studentGroup)
         {

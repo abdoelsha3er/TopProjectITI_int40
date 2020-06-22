@@ -73,6 +73,12 @@ namespace TopProjectITI_int40.Repository.StudentRepo.StudentRepositories
             return await _context.Students.Where(a => a.ParentId == id).ToListAsync();
         }
 
+        // get all students by gradeid
+        public async Task<IEnumerable<Student>> GetStudentsByGradeId(int gradeId)
+        {
+            return await _context.Students.Where(s => s.GradeId == gradeId).ToListAsync();
+        }
+
         public async Task<Student> studentDetails(int id)
         {
             return await GetStudentById(id);
