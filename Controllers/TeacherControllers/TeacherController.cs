@@ -164,10 +164,6 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
                     }
                     
                 }
-                else
-                {
-                    //teacher.Picture = teacher.Picture;
-                }
             }
             // for hashing password
             string password = teacher.Password;

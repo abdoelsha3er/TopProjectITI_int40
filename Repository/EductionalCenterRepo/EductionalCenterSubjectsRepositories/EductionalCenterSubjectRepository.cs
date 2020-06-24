@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterSu
         }
 
         // Add new EductionalCenterSubject to EductionalCenter
-        public async Task AddEductionalCenterSubject(EductionalCenterSubjects eductionalCenterSubject)
+        public async Task AddEductionalCenterSubject( EductionalCenterSubjects eductionalCenterSubject)
         {
             await _context.EductionalCenterSubjects.AddAsync(eductionalCenterSubject);
             await _context.SaveChangesAsync();

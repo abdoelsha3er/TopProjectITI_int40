@@ -13,6 +13,6 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterRe
         Task<IEnumerable<EductionalCenter>> GetEductionalCenters();
         Task<EductionalCenter> GetEductionalCenterById(int eductionalCenterId);
         Task<EductionalCenter> GetEductionalCenterByUserName(string userName);
-        Task EditEductionalCenter(EductionalCenter newEductionalCenter, int eductionalCenterId);
+        Task EditEductionalCenter(EductionalCenter newEductionalCenter, int eductionalCenterId, string file);
     }
 }

@@ -48,6 +48,7 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
                 if (eductionalCenterSubject != null)
                 {
                     await _eductionalCenterSubjectRepository.AddEductionalCenterSubject(eductionalCenterSubject);
+                    
                     return Created("EductionalCenterTable", eductionalCenterSubject);
                 }
                 else
@@ -81,8 +82,8 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
 
         // Delete Student from Group
         [HttpDelete]
-        [Route("DeleteEductionalCenterSubject/{subjectId}")]
-        public async Task<IActionResult> DeleteEductionalCenterSubject(int subjectId, [FromForm] int eductionalCenterId)
+        [Route("DeleteEductionalCenterSubject/{subjectId}/{eductionalCenterId}")]
+        public async Task<IActionResult> DeleteEductionalCenterSubject(int subjectId, int eductionalCenterId)
         {
             if (!ModelState.IsValid)
             {

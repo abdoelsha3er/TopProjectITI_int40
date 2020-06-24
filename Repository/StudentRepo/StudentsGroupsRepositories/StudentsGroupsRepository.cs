@@ -20,9 +20,13 @@ namespace TopProjectITI_int40.Repository.StudentRepo.StudentsGroupsRepositories
         //, parent have students so can see all groups of his students
         public async Task<IEnumerable<StudentGroup>> GetStudentGroups(int studentId)
         {
-            return await _context.StudentsGroups.Include(g => g.EductionalCenterGroup)
-                           .Where(s => s.StudentId == studentId)
-                           .ToListAsync();
+            return await _context.StudentsGroups
+                                 .Include(g => g.EductionalCenterGroup)
+                                 .ThenInclude(s=>s.Subject)
+                                 .ThenInclude(t=>t.TeacherSubjects)
+                                 .ThenInclude(tc => tc.Teacher)
+                                 .Where(s => s.StudentId == studentId)
+                                 .ToListAsync();
         }
         // get all Students  IsJoined of Selected Group, "selected group" , its come from token when eductional center make login with relation include
         public async Task<IEnumerable<StudentGroup>> GetGroupStudentsJoined(int groupId)

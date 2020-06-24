@@ -38,14 +38,17 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterRe
             return await _context.EductionalCenters.FirstOrDefaultAsync(a => a.UserName == userName);
         }
         // Edit profile of      // id gets from token when login, can't be able edit any profile 
-        public async Task EditEductionalCenter(EductionalCenter newEductionalCenter, int eductionalCenterId)
+        public async Task EditEductionalCenter(EductionalCenter newEductionalCenter, int eductionalCenterId, string file)
         {
             EductionalCenter oldEductionalCenter = await GetEductionalCenterById(eductionalCenterId);
             oldEductionalCenter.Name = newEductionalCenter.Name;
             oldEductionalCenter.UserName = newEductionalCenter.UserName;
             oldEductionalCenter.Email = newEductionalCenter.Email;
             oldEductionalCenter.Password = newEductionalCenter.Password;
-            oldEductionalCenter.Picture = newEductionalCenter.Picture;
+            if (file != null)
+            {
+                oldEductionalCenter.Picture = file;
+            }
             oldEductionalCenter.About = newEductionalCenter.About;
             oldEductionalCenter.CityId = newEductionalCenter.CityId;
             oldEductionalCenter.AddressDetails = newEductionalCenter.AddressDetails;

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -134,58 +136,81 @@ namespace TopProjectITI_int40.Controllers.EductionalCenterControllers
         [Route("EditEductionalCenter/{eductionalCenterId}")]
         public async Task<IActionResult> EditEductionalCenter([FromForm] EductionalCenter eductionalCenter, int eductionalCenterId, IFormFile file)
         {
-            EductionalCenter editEductionalCenterById;
+            EductionalCenter editEductionalCenterById = await _eductionalCenterRepository.GetEductionalCenterById(eductionalCenterId);
+            var fileName = editEductionalCenterById.Picture;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (eductionalCenterId!=0)
+            if (eductionalCenterId != 0)
             {
-                editEductionalCenterById = await _eductionalCenterRepository.GetEductionalCenterById(eductionalCenterId); //GetTeacherPhoneById search
                 if (editEductionalCenterById == null)
                 {
                     return Content("not found , please Check!...");
                 }
-                else if(editEductionalCenterById.Picture!=null)
+                if (file != null)
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\EductionalCenterPictures", editEductionalCenterById.Picture);
-                    if (System.IO.File.Exists(path))
+                    if (file.Length == 0)
                     {
-                        System.IO.File.Delete(path);
+                        return BadRequest("Empty file");
                     }
+                    if (file.Length > _photoSetting.MaxBytes)
+                    {
+                        return BadRequest("Max file size exceeded");
+                    }
+                    if (!_photoSetting.IsSupported(file.FileName))
+                    {
+                        return BadRequest("Invalid file type");
+                    }
+                    var EductionalCenterFolderPath = Path.Combine(_host.WebRootPath, "EductionalCenterPictures");
+                    if (!Directory.Exists(EductionalCenterFolderPath))
+                    {
+                        Directory.CreateDirectory(EductionalCenterFolderPath);
+                    }
+                    fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(EductionalCenterFolderPath, fileName);  // filepath
+
+                    if (editEductionalCenterById.Picture != null)
+                    {
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\EductionalCenterPictures", editEductionalCenterById.Picture);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await file.CopyToAsync(stream); // picture saved to the path (folder)
+                            }
+                            //teacher.Picture = fileName;
+                        }
+                    }
+                    else
+                    {
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream); // picture saved to the path (folder)
+                            //teacher.Picture = fileName;
+                        }
+                    }
+
                 }
             }
-            if (eductionalCenter == null)
+            // for hashing password
+            string password = eductionalCenter.Password;
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
             {
-                return NotFound();
+                rng.GetBytes(salt);
             }
-            if (file.Length == 0)
-            {
-                return BadRequest("Empty file");
-            }
-            if (file.Length > _photoSetting.MaxBytes)
-            {
-                return BadRequest("Max file size exceeded");
-            }
-            if (!_photoSetting.IsSupported(file.FileName))
-            {
-                return BadRequest("Invalid file type");
-            }
-            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "EductionalCenterPictures");
-            if (!Directory.Exists(uploadsFolderPath))
-            {
-                Directory.CreateDirectory(uploadsFolderPath);
-            }
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolderPath, fileName);  // filepath
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream); // picture saved to the path (folder)
-            }
-            eductionalCenter.Picture = fileName;
-            await _eductionalCenterRepository.EditEductionalCenter(eductionalCenter, eductionalCenterId);
-            return Created("EductionalCenterTable", eductionalCenter);
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+               password: password,
+               salt: salt,
+               prf: KeyDerivationPrf.HMACSHA1,
+               iterationCount: 10000,
+               numBytesRequested: 256 / 8));
+            eductionalCenter.Password = hashed;
+            await _eductionalCenterRepository.EditEductionalCenter(eductionalCenter, eductionalCenterId, fileName);
+            return Created("EductionalCenterTable", editEductionalCenterById);
         }
     }
 }
