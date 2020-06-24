@@ -13,7 +13,7 @@ namespace TopProjectITI_int40.Repository.StudentRepo.StudentRepositories
         Task<IEnumerable<Student>> GetAllStudents();
         Task<IEnumerable<Student>> GetStudentsByGradeId(int gradeId);   // get all by gradeId
         Task AddStudent(Student student);
-        Task EditStudent(Student student, Student studentId);
+        Task EditStudent(Student newStudent, int studentId);
         Task DeleteStudent(int studentId);
         Task<Student> CheckStudentLogin(string userName, string password, string email);
         Task<Student> studentDetails(int id);

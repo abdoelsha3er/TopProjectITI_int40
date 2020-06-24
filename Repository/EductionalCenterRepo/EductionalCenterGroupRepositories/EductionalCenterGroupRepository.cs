@@ -26,7 +26,8 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterGr
         // get all groups of eductional center by it's id       //  when login , we gets id for center by token
         public async Task<IEnumerable<EductionalCenterGroup>> GetEductionalCenterGroups(int eductionalCenterId)
         {
-            return await _context.EductionalCenterGroups.Include(t=>t.Teacher)
+            return await _context.EductionalCenterGroups
+                        .Include(t=>t.Teacher)
                         .Include(s=>s.Subject)
                         .Include(g=>g.Grade)
                         .Where(a => a.EductionalCenterId == eductionalCenterId).ToListAsync();
@@ -47,6 +48,7 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterGr
         {
             return await _context.EductionalCenterGroups
                         .Include(c => c.EductionalCenter)
+                        .Include(t => t.Teacher)
                         .Include(s => s.Subject)
                         .Include(gr => gr.Grade)
                         .Where(g => g.EductionalCenterId == eductionalCenterId && g.GradeId == gradeId && g.SubjectId == subjectid)

@@ -160,7 +160,7 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
                 await file.CopyToAsync(stream); // picture saved to the path (folder)
             }
             student.Picture = fileName;
-            await _studentRepository.EditStudent(studentById, student);
+            await _studentRepository.EditStudent(student, StudentId);
             return Ok(studentById);
 
         }

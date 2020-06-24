@@ -22,5 +22,6 @@ namespace TopProjectITI_int40.Models
         public bool IsJoined { get; set; }
         public EductionalCenterGroup EductionalCenterGroup { get; set; }
         public Student Student { get; set; }
+        public List<ReportStudentGroup> ReportStudentGroups { get; set; }
     }
 }

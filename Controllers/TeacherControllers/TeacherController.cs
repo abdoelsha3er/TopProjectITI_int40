@@ -105,7 +105,8 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         [Route("EditTeacherProfile/{teacherId}")]
         public async Task<IActionResult> EditTeacherProfile([FromForm] Teacher teacher, int teacherId, IFormFile file)
         {
-            Teacher teacherById;
+            Teacher teacherById= await _teacherRegisterRepository.GetTeacherById(teacherId);
+            var fileName = teacherById.Picture;
 
             if (!ModelState.IsValid)
             {
@@ -113,50 +114,62 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
             }
             if (teacherId != 0)
             {
-                teacherById = await _teacherRegisterRepository.GetTeacherById(teacherId);  //GetTeacherPhoneById search
+                //teacherById = await _teacherRegisterRepository.GetTeacherById(teacherId);  //GetTeacherPhoneById search
                 if (teacherById == null)
                 {
                     return Content("not found , please Check!...");
                 }
-                else if (teacherById.Picture != null)
+                if (file != null)
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\EductionalCenterPictures", teacherById.Picture);
-                    if (System.IO.File.Exists(path))
+                    if (file.Length == 0)
                     {
-                        System.IO.File.Delete(path);
+                        return BadRequest("Empty file");
                     }
+                    if (file.Length > _photoSetting.MaxBytes)
+                    {
+                        return BadRequest("Max file size exceeded");
+                    }
+                    if (!_photoSetting.IsSupported(file.FileName))
+                    {
+                        return BadRequest("Invalid file type");
+                    }
+                    var uploadsFolderPath = Path.Combine(_host.WebRootPath, "uploads");
+                    if (!Directory.Exists(uploadsFolderPath))
+                    {
+                        Directory.CreateDirectory(uploadsFolderPath);
+                    }
+                    fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(uploadsFolderPath, fileName);  // filepath
+
+                    if (teacherById.Picture != null)
+                    {
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", teacherById.Picture);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await file.CopyToAsync(stream); // picture saved to the path (folder)
+                            }
+                            //teacher.Picture = fileName;
+                        }
+                    }
+                    else
+                    {
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream); // picture saved to the path (folder)
+                            //teacher.Picture = fileName;
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    //teacher.Picture = teacher.Picture;
                 }
             }
-            if (teacher == null)
-            {
-                return Content("not found , please Check!...");
-            }
-            if (file.Length == 0)
-            {
-                return BadRequest("Empty file");
-            }
-            if (file.Length > _photoSetting.MaxBytes)
-            {
-                return BadRequest("Max file size exceeded");
-            }
-            if (!_photoSetting.IsSupported(file.FileName))
-            {
-                return BadRequest("Invalid file type");
-            }
-            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "EductionalCenterPictures");
-            if (!Directory.Exists(uploadsFolderPath))
-            {
-                Directory.CreateDirectory(uploadsFolderPath);
-            }
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolderPath, fileName);  // filepath
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream); // picture saved to the path (folder)
-            }
-            teacher.Picture = fileName;
-            // hash password
+            // for hashing password
             string password = teacher.Password;
             byte[] salt = new byte[128 / 8];
             using (var rng = RandomNumberGenerator.Create())
@@ -164,14 +177,14 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
                 rng.GetBytes(salt);
             }
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-           password: password,
-           salt: salt,
-           prf: KeyDerivationPrf.HMACSHA1,
-           iterationCount: 10000,
-           numBytesRequested: 256 / 8));
+               password: password,
+               salt: salt,
+               prf: KeyDerivationPrf.HMACSHA1,
+               iterationCount: 10000,
+               numBytesRequested: 256 / 8));
             teacher.Password = hashed;
-            await _teacherRegisterRepository.EditTeacherProfile(teacher, teacherId);
-            return Created("TeacherTable", teacher);
+            await _teacherRegisterRepository.EditTeacherProfile(teacher, teacherId, fileName);
+            return Created("TeacherTable", teacherById);
         }
     }
 }

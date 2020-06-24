@@ -33,14 +33,18 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherRegisterRepositories
             return await _context.Teachers.FindAsync(teacherId);
         }
         // Edit profile of Teacher
-        public async Task EditTeacherProfile(Teacher newTeacher, int id)
+        public async Task EditTeacherProfile(Teacher newTeacher, int id, string file)
         {
             Teacher oldTeacher = await GetTeacherById(id);
             oldTeacher.FirstName = newTeacher.FirstName;
             oldTeacher.LastName = newTeacher.LastName;
             oldTeacher.UserName = newTeacher.UserName;
             oldTeacher.Password = newTeacher.Password;
-            oldTeacher.Picture = newTeacher.Picture;
+            if (file!=null)
+            {
+                oldTeacher.Picture = file;
+            }
+            //
             oldTeacher.CityId = newTeacher.CityId;
             oldTeacher.AddressDetails = newTeacher.AddressDetails;
             oldTeacher.Gender = newTeacher.Gender;

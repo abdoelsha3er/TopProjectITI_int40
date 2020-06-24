@@ -46,6 +46,9 @@ namespace TopProjectITI_int40.AppDBContext
         public DbSet<StudentSkill> StudentSkills { get; set; }
         public DbSet<StudentGroup> StudentsGroups { get; set; }
 
+        //report
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<ReportStudentGroup> ReportStudentGroups { get; set; }
 
         // use Fluent API for Composit Key
         protected override void OnModelCreating(ModelBuilder modelBuilder)

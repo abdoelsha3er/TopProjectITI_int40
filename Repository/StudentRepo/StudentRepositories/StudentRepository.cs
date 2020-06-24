@@ -47,17 +47,17 @@ namespace TopProjectITI_int40.Repository.StudentRepo.StudentRepositories
             throw new NotImplementedException();
         }
 
-        public async Task EditStudent(Student oldStudent, Student student)
+        public async Task EditStudent(Student newStudent, int studentId)
         {
-            //Student oldStudent = await GetStudentById(studentId);
-            oldStudent.StudentName = student.StudentName;
-            oldStudent.Password = student.Password;
-            oldStudent.DateOfBirth = student.DateOfBirth;
-            oldStudent.School = student.School;
-            oldStudent.GradeId = student.GradeId;
-            oldStudent.Picture = student.Picture;
+            Student oldStudent = await GetStudentById(studentId);
+            oldStudent.StudentName = newStudent.StudentName;
+            oldStudent.Password = newStudent.Password;
+            oldStudent.DateOfBirth = newStudent.DateOfBirth;
+            oldStudent.School = newStudent.School;
+            oldStudent.GradeId = newStudent.GradeId;
+            oldStudent.Picture = newStudent.Picture;
             // oldStudent.Education = student.Education;
-            oldStudent.DegreeOfLastYear = student.DegreeOfLastYear;
+            oldStudent.DegreeOfLastYear = newStudent.DegreeOfLastYear;
             _context.Students.Update(oldStudent);
             // _context.Entry(oldParent).State = EntityState.Modified;
             await _context.SaveChangesAsync();

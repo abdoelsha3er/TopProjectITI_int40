@@ -40,11 +40,11 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
                 }
             }
         }
-
-        // get Group all students
+        
+        // get Group all students  joined 
         [HttpGet]
-        [Route("GetGroupStudents/{groupId}")]
-        public async Task<IActionResult> GetGroupStudents(int groupId)
+        [Route("GetGroupStudentsJoined/{groupId}")]
+        public async Task<IActionResult> GetGroupStudentsJoined(int groupId)
         {
             if (!ModelState.IsValid)
             {
@@ -52,7 +52,30 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             }
             else
             {
-                var groupstudents = await _studentsGroupsRepository.GetGroupStudents(groupId);
+                var groupstudents = await _studentsGroupsRepository.GetGroupStudentsJoined(groupId);
+                if (groupstudents != null)
+                {
+                    return Ok(groupstudents);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+        }
+
+        // get Group all students  not joined 
+        [HttpGet]
+        [Route("GetGroupStudentsWaitJoine/{groupId}")]
+        public async Task<IActionResult> GetGroupStudentsWaitJoine(int groupId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                var groupstudents = await _studentsGroupsRepository.GetGroupStudentsWaitJoine(groupId);
                 if (groupstudents != null)
                 {
                     return Ok(groupstudents);
@@ -84,9 +107,31 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             return BadRequest(ModelState);
         }
 
+        // Edit isJoined to Group for Stuedent
+        [HttpPut]
+        [Route("EditStudentGroup/{groupId}/{studentId}")]
+        public IActionResult EditStudentGroup([FromForm] StudentGroup studentGroup, int groupId, int studentId)
+        {
+            var studentGroupobj = _studentsGroupsRepository.GetStudentGroup(groupId, studentId);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (studentGroupobj == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _studentsGroupsRepository.EditStudentGroup(studentGroup, groupId, studentId);
+
+                return Ok(studentGroup);
+            }
+        }
+
         // Delete Student from Group
         [HttpDelete]
-        [Route("DeleteStudntFromGroup/{studentId}")]
+        [Route("DeleteStudntFromGroup/{groupId}/{studentId}")]
         public async Task<IActionResult> DeleteStudntFromGroup(int groupId, int studentId)
         {
             if (!ModelState.IsValid)
@@ -95,7 +140,7 @@ namespace TopProjectITI_int40.Controllers.StudentControllers
             }
             else
             {
-                var studentGroup = await _studentsGroupsRepository.GetStudentGroup(groupId,studentId);
+                var studentGroup =  _studentsGroupsRepository.GetStudentGroup(groupId,studentId);
                 if (studentGroup != null)
                 {
                     await _studentsGroupsRepository.DeleteStudntFromGroup(studentGroup);
