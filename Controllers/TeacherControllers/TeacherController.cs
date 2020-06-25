@@ -24,7 +24,7 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         public TeacherController(ITeacherRegisterRepository teacherRegisterRepository, IOptionsSnapshot<PhotoSettings> options, IWebHostEnvironment host)
         {
             _teacherRegisterRepository = teacherRegisterRepository;
-            this._photoSetting = options.Value; //  
+            _photoSetting = options.Value; //  
             _host = host;
         }
         // get all teacher in system

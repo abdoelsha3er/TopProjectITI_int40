@@ -15,10 +15,11 @@ namespace TopProjectITI_int40.Repository.ReportRepo.ReportReporitories
         {
             _context = context;
         }
-        public async Task<IEnumerable<ReportStudentGroup>> AddAllReportsToParent(ReportStudentGroup[] reports)
+        public async Task<IEnumerable<ReportStudentGroup>> AddAllReportsToParent(ReportStudentGroup[] reports, int reportId)
         {
             foreach (var item in reports)
             {
+                item.ReportId = reportId;
                 await _context.ReportStudentGroups.AddAsync(item);
                 await _context.SaveChangesAsync();
             }
@@ -38,7 +39,8 @@ namespace TopProjectITI_int40.Repository.ReportRepo.ReportReporitories
 
         public async Task<IEnumerable<ReportStudentGroup>> GetAllReportsToParentInGroup(int studentId, int groupId)
         {
-            return await _context.ReportStudentGroups.Where(a => a.studentGroup.StudentId == studentId && a.studentGroup.EductionalCenterGroupId == groupId)
+            return await _context.ReportStudentGroups.Include(r => r.Report)
+                .Where(a => a.studentGroup.StudentId == studentId && a.studentGroup.EductionalCenterGroupId == groupId)
                 .ToListAsync();
         }
 
@@ -51,9 +53,7 @@ namespace TopProjectITI_int40.Repository.ReportRepo.ReportReporitories
                 return await _context.ReportStudentGroups.FirstOrDefaultAsync(s => s.ReportId == item.ReportId && s.studentGroup.StudentId == studentId
                 && s.studentGroup.EductionalCenterGroupId == groupId);
             }
-
             return null;
-
         }
     }
 }

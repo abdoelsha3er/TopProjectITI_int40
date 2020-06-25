@@ -12,6 +12,6 @@ namespace TopProjectITI_int40.Repository.ReportRepo.ReportReporitories
         Task<ReportStudentGroup> GetReportToParent(int studentId, int groupId, DateTime date);
 
         Task<IEnumerable<ReportStudentGroup>> GetAllReportsToParentInGroup(int studentId, int groupId);
-        Task<IEnumerable<ReportStudentGroup>> AddAllReportsToParent(ReportStudentGroup[] reports);
+        Task<IEnumerable<ReportStudentGroup>> AddAllReportsToParent(ReportStudentGroup[] reports, int reportId);
     }
 }

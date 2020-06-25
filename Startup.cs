@@ -33,6 +33,10 @@ using TopProjectITI_int40.Repository.StudentRepo.StudentRepositories;
 using TopProjectITI_int40.Repository.StudentRepo.StudentsGroupsRepositories;
 using TopProjectITI_int40.Repository.StudentRepo.StudentSkillsRepositories;
 using TopProjectITI_int40.Repository.ReportRepo.ReportReporitories;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using TopProjectITI_int40.Repository.ReportRepo.ReportReporitories.ReportSupRepositories;
 
 namespace TopProjectITI_int40
 {
@@ -45,10 +49,44 @@ namespace TopProjectITI_int40
         public IConfiguration Configuration { get; }
         string coretest = "test";
 
+
+        //Auth Service >>  Registeration in Start up
+
+        private void SetupJWTServices(IServiceCollection services)
+        {
+            string key = Configuration.GetSection("JwtConfig").GetSection("secret").Value; //this should be same which is used while creating token     
+            var issuer = "http://localhost:6853";  //this should be same which is used while creating token 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = true,
+                       ValidateAudience = true,
+                       ValidateIssuerSigningKey = true,
+                       ValidIssuer = issuer,
+                       ValidAudience = issuer,
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                   };
+                   options.Events = new JwtBearerEvents
+                   {
+                       OnAuthenticationFailed = context =>
+                       {
+                           if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                           {
+                               context.Response.Headers.Add("Token-Expired", "true");
+                           }
+                           return Task.CompletedTask;
+                       }
+                   };
+               });
+        }
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //photo   register for photo
+            //photo   register for photoSettings
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
 
             //                                                          .UseLazyLoadingProxies().UseSqlServer
@@ -56,7 +94,11 @@ namespace TopProjectITI_int40
 
             //// ===== Add Identity ========
             //services.AddIdentity<DBGProjectITI_Int40, IdentityRole>()
-            
+
+            // call function of JWTAuth
+            SetupJWTServices(services);
+
+
             //.AddDefaultTokenProviders();
             // use here lazy loading
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -123,6 +165,8 @@ namespace TopProjectITI_int40
             // Reports
             //         1- Report
             services.AddScoped<IReportRepository, ReportRepository>();
+            //         2- SubRepot
+            services.AddScoped<IReportSupRepository, ReportSupRepository>();
 
         }
 
@@ -137,7 +181,10 @@ namespace TopProjectITI_int40
 
             app.UseRouting();
 
+            // for Authentication and Authorizations
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseOpenApi();
             app.UseSwaggerUi3();
 

@@ -73,15 +73,19 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         }
         //Delete TeacherSubjec
         [HttpDelete]
-        [Route("DeleteTeacherSubject")]
-        public async Task<IActionResult> DeleteTeacherSubject([FromForm] TeacherSubjects teacherSubject)
+        [Route("DeleteTeacherSubject/{subjectId}/{teacherId}")]
+        public async Task<IActionResult> DeleteTeacherSubject(int subjectId, int teacherId)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
-                if (teacherSubject != null)
+                return BadRequest(ModelState);
+            }
+            else 
+            {
+                TeacherSubjects teacherSubjectById = await _teacherSubjectRepository.GetTeacherSubject(teacherId, subjectId);
+                if (teacherSubjectById != null)
                 {
-                    await _teacherSubjectRepository.DeleteTeacherSubject(teacherSubject);
+                    await _teacherSubjectRepository.DeleteTeacherSubject(teacherSubjectById);
                     return Ok("Deleted Successfully");
                 }
                 else
@@ -89,7 +93,7 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
                     return NotFound();
                 }
             }
-            return BadRequest();
+           
         }
     }
 }
