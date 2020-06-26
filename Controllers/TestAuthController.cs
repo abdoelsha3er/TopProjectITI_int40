@@ -66,6 +66,7 @@ namespace TopProjectITI_int40.Controllers
                             expires: DateTime.Now.AddDays(1),
                             signingCredentials: credentials);
             var jwt_token = new JwtSecurityTokenHandler().WriteToken(token);
+            //return Unauthorized(new { error = "you can't access this action" });
             return Ok(new { token = jwt_token });
 
         }
