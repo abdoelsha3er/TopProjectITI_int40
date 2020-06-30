@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TopProjectITI_int40.AppDBContext;
 using TopProjectITI_int40.Models;
+using TopProjectITI_int40.ViewModels;
 
 namespace TopProjectITI_int40.Repository.ParentRepo.ParentRepositories
 {
@@ -24,14 +25,13 @@ namespace TopProjectITI_int40.Repository.ParentRepo.ParentRepositories
             await _context.Parents.AddAsync(parent);
             await _context.SaveChangesAsync();
         }
-        public async Task<Parent> CheckParentLogin(string userName, string password)   // for check login parent
-        {
-            return await _context.Parents.FirstOrDefaultAsync(p => p.UserName == userName && p.Password == password);
-        }
+        //public async Task<Parent> CheckParentLogin(string userName, string password)   // for check login parent
+        //{
+        //    return await _context.Parents.FirstOrDefaultAsync(p => p.UserName == userName && p.Password == password);
+        //}
 
         public async Task EditParent(Parent newParent, int parentId)  // for editing profile
         {
-
             Parent oldParent = await GetParentById(parentId);
             oldParent.FirstName = newParent.FirstName;
             oldParent.LastName = newParent.LastName;
@@ -61,6 +61,11 @@ namespace TopProjectITI_int40.Repository.ParentRepo.ParentRepositories
         public async Task<Parent> parentDetails(int id)
         {
             return await GetParentById(id);
+        }
+        //Login
+        public async Task<Parent> LoginParent(LoginViewModel parentViewModel)
+        {
+            return await _context.Parents.SingleOrDefaultAsync(t => (t.UserName == parentViewModel.UserName) || t.Email == parentViewModel.UserName);
         }
     }
 }

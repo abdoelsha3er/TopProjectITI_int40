@@ -37,6 +37,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TopProjectITI_int40.Repository.ReportRepo.ReportReporitories.ReportSupRepositories;
+using System.Runtime;
+using CustomAuthorizeFilterAspNetCore21.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TopProjectITI_int40
 {
@@ -116,7 +119,10 @@ namespace TopProjectITI_int40
                     });
             });
 
+            // Custom Authorization
             services.AddControllers();
+            //options => options.Filters.Add(new CustomAuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()))
+
             //Admin   >> 1- Category Subjects hhhh
             services.AddScoped<ICategorySubjectRepository, CategorySubjectRepository>();
             //        >> 2- Subjects
@@ -167,6 +173,8 @@ namespace TopProjectITI_int40
             services.AddScoped<IReportRepository, ReportRepository>();
             //         2- SubRepot
             services.AddScoped<IReportSupRepository, ReportSupRepository>();
+
+            // 
 
         }
 

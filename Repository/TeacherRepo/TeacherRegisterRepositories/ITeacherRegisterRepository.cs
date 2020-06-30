@@ -12,7 +12,7 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherRegisterRepositories
         Task<IEnumerable<Teacher>> GetTeachers();
         Task TeacherRegister(Teacher teacher);
         Task<Teacher> GetTeacherById(int teacherId);
-        Task<Teacher> LoginTeacher(TeacherViewModel teacherViewModel);
         Task EditTeacherProfile(Teacher newTeacher, int id, string file);
+        Task<Teacher> LoginTeacher(LoginViewModel teacherViewModel);
     }
 }

@@ -31,7 +31,7 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherRegisterRepositories
         // get by teacher id   // will get from token when logined
         public async Task<Teacher> GetTeacherById(int teacherId)
         {
-            return await _context.Teachers.FindAsync(teacherId);
+            return await _context.Teachers.FirstOrDefaultAsync(t => t.TeacherId == teacherId);
         }
         // Edit profile of Teacher
         public async Task EditTeacherProfile(Teacher newTeacher, int id, string file)
@@ -54,7 +54,7 @@ namespace TopProjectITI_int40.Repository.TeacherRepo.TeacherRegisterRepositories
             await _context.SaveChangesAsync();
         }
         //Login
-        public async Task<Teacher> LoginTeacher(TeacherViewModel teacherViewModel)
+        public async Task<Teacher> LoginTeacher(LoginViewModel teacherViewModel)
         {
             return await _context.Teachers.SingleOrDefaultAsync(t => (t.UserName == teacherViewModel.UserName) || t.Email==teacherViewModel.UserName);
         }

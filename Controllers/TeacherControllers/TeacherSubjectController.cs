@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
 using TopProjectITI_int40.Repository.TeacherRepo.TeacherSubjectRepositories;
@@ -35,65 +35,88 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
                 return null;
             }
         }
-
         // Get GetTeacherSubjectstById(id)
+        [Authorize]
         [HttpGet]
-        [Route("GetTeacherSubjectst/{teacherId}")]    // TeacherId will Selected by teacher login (token) 
-        public async Task<QueryResult<TeacherSubjects>> GetTeacherSubjectst(int teacherId)
+        [Route("GetTeacherSubjectst")]    // TeacherId will Selected by teacher login (token) 
+        public async Task<IActionResult> GetTeacherSubjects()
         {
-            var teachersubects = await _teacherSubjectRepository.GetTeacherSubjects(teacherId);
-            if (teachersubects != null)
+            if (!ModelState.IsValid)
             {
-                return (teachersubects);
+                ModelState.AddModelError("ErrorMessage:", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
             }
-            else
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity == null)
             {
-                return null;
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
             }
+            IEnumerable<Claim> claims = identity.Claims;
+            var teacherId = claims.Where(p => p.Type == "TeacherId").FirstOrDefault()?.Value;
+            var teachersubects = await _teacherSubjectRepository.GetTeacherSubjects(int.Parse(teacherId));
+            if (teachersubects == null)
+            {
+                ModelState.AddModelError("Erroe Message : ", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
+            }
+            return Ok(teachersubects);
         }
         // Add new TeacherSubjec
+        [Authorize]
         [HttpPost]
         [Route("AddTeacherSubject")]
         public async Task<ActionResult> AddTeacherSubject([FromForm] TeacherSubjects teacherSubject)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
-                if (teacherSubject != null)
-                {
-                    await _teacherSubjectRepository.AddTeacherSubject(teacherSubject);
-                    return Created("TeacherSubjectTable", teacherSubject);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                ModelState.AddModelError("ErrorMessage:", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
             }
-            return BadRequest();
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity == null)
+            {
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
+            }
+            IEnumerable<Claim> claims = identity.Claims;
+            var teacherId = claims.Where(p => p.Type == "TeacherId").FirstOrDefault()?.Value;
+            if (teacherId == null)
+            {
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
+            }
+            await _teacherSubjectRepository.AddTeacherSubject(teacherSubject);
+            return Created("TeacherSubjectTable", teacherSubject);
+               
         }
         //Delete TeacherSubjec
+        [Authorize]
         [HttpDelete]
-        [Route("DeleteTeacherSubject/{subjectId}/{teacherId}")]
-        public async Task<IActionResult> DeleteTeacherSubject(int subjectId, int teacherId)
+        [Route("DeleteTeacherSubject/{subjectId}")]
+        public async Task<IActionResult> DeleteTeacherSubject(int subjectId)
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("ErrorMessage:", "You unAuthorize to Get Data of this Teacher");
                 return BadRequest(ModelState);
             }
-            else 
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity == null)
             {
-                TeacherSubjects teacherSubjectById = await _teacherSubjectRepository.GetTeacherSubject(teacherId, subjectId);
-                if (teacherSubjectById != null)
-                {
-                    await _teacherSubjectRepository.DeleteTeacherSubject(teacherSubjectById);
-                    return Ok("Deleted Successfully");
-                }
-                else
-                {
-                    return NotFound();
-                }
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
             }
-           
+            IEnumerable<Claim> claims = identity.Claims;
+            var teacherId = claims.Where(p => p.Type == "TeacherId").FirstOrDefault()?.Value;
+            var teacherSubjectById = await _teacherSubjectRepository.GetTeacherSubject(int.Parse(teacherId), subjectId);
+            if (teacherSubjectById == null)
+            {
+                ModelState.AddModelError("Erroe Message : ", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
+            }
+            await _teacherSubjectRepository.DeleteTeacherSubject(teacherSubjectById);
+            return Ok("Deleted Successfully");        
         }
     }
 }

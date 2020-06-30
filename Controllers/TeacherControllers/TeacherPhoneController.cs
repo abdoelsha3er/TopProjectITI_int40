@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TopProjectITI_int40.Models;
-using TopProjectITI_int40.Repository.AdminRepo.SubjectRepositories;
 using TopProjectITI_int40.Repository.TeacherRepo.TeacherPhonesRepositories;
 
 namespace TopProjectITI_int40.Controllers.TeacherControllers
@@ -21,31 +20,56 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
             _teacherPhonesRepository = teacherPhonesRepository;
         }
         // Get AllTeacherPhones(id)
+        [Authorize]
         [HttpGet]
-        [Route("GetTeacherPhones/{teacherId}")]   // id here will get from teacher who is logined on system
-        public async Task<QueryResult<TeacherPhone>> GetTeacherPhones(int teacherId)
+        [Route("GetTeacherPhones")]   // id here will get from teacher who is logined on system
+        public async Task<IActionResult> GetTeacherPhones()
         {
-            var teachrPhoness = await _teacherPhonesRepository.GetTeacherPhones(teacherId);
-            if (teachrPhoness != null)
+
+            if (!ModelState.IsValid)
             {
-                return (teachrPhoness);
+                ModelState.AddModelError("ErrorMessage:", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
             }
-            else
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity == null)
             {
-                //return (teacherSubectsNotAssign);
-                return null;
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
             }
+            IEnumerable<Claim> claims = identity.Claims;
+            var teacherId = claims.Where(p => p.Type == "TeacherId").FirstOrDefault()?.Value;
+            var teachrPhones = await _teacherPhonesRepository.GetTeacherPhones(int.Parse(teacherId));
+            if (teachrPhones == null)
+            {
+                ModelState.AddModelError("Erroe Message : ", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
+            }
+            return Ok(teachrPhones);
         }
         // Add new Phone to Teacher 
+        [Authorize]
         [HttpPost]
         [Route("AddTeacherPhone")]
         public async Task<ActionResult> AddTeacherPhone([FromForm] TeacherPhone teacherPhone)
         {
-            // check phone number is there exists in database 
-            var isExistNumber = _teacherPhonesRepository.CheckPhoneExists(teacherPhone.TeacherPhoneNumber);
-            if (isExistNumber.Result != null)
+            if (!ModelState.IsValid)
             {
-                return Content("this phone number exists as before!!!. Please Write Another Phone");
+                ModelState.AddModelError("ErrorMessage:", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
+            }
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity == null)
+            {
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
+            }
+            IEnumerable<Claim> claims = identity.Claims;
+            var teacherId = claims.Where(p => p.Type == "TeacherId").FirstOrDefault()?.Value;
+            if (teacherId == null)
+            {
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
             }
             await _teacherPhonesRepository.AddTeacherPhone(teacherPhone);
             return Created("TeacherPhoneTable", teacherPhone);

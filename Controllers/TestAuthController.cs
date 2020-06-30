@@ -28,7 +28,7 @@ namespace TopProjectITI_int40.Controllers
         }
         [HttpPost]
         [Route("Login")]
-        public IActionResult LoginTeacher([FromForm] TeacherViewModel teacherViewModel)
+        public IActionResult LoginTeacher([FromForm] LoginViewModel teacherViewModel)
         {
             if (!ModelState.IsValid)
             {

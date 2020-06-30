@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TopProjectITI_int40.AppDBContext;
 using TopProjectITI_int40.Models;
+using TopProjectITI_int40.ViewModels;
 
 namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterRepositories
 {
@@ -55,7 +56,11 @@ namespace TopProjectITI_int40.Repository.EductionalCenterRepo.EductionalCenterRe
             _context.Entry(oldEductionalCenter).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-
+        //Login
+        public async Task<EductionalCenter> LoginEductionalCenter(LoginViewModel loginViewModel)
+        {
+            return await _context.EductionalCenters.SingleOrDefaultAsync(t => (t.UserName == loginViewModel.UserName) || t.Email == loginViewModel.UserName);
+        }
 
     }
 }

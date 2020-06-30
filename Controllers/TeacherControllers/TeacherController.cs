@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -52,20 +53,33 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
             }
             return null;
         }
-
+        [Authorize]
         // get by id
         [HttpGet]
-        [Route("GetTeacherById/{teacherId}")]
-        public async Task<IActionResult> GetTeacherById(int teacherId)
+        [Route("GetTeacherById")]
+        public async Task<IActionResult> GetTeacherById()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var teacher = await _teacherRegisterRepository.GetTeacherById();
-                if (teacher != null)
-                    return Ok(teacher);
-                return null;
+                ModelState.AddModelError("ErrorMessage:", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
             }
-            return null;
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity == null)
+            {
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
+            }
+            IEnumerable<Claim> claims = identity.Claims;
+            var teacherId = claims.Where(p => p.Type == "TeacherId").FirstOrDefault()?.Value;
+            var teacher = await _teacherRegisterRepository.GetTeacherById(int.Parse(teacherId));
+
+            if (teacher == null)
+            {
+                ModelState.AddModelError("Erroe Message : ", "You unAuthorize to Get Data of this Teacher");
+                return BadRequest(ModelState);
+            }
+            return Ok(new { teacher = teacher });
         }
 
         // Register to Teacher 
@@ -112,19 +126,33 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
         }
         //Edit
         [HttpPut]
-        [Route("EditTeacherProfile/{teacherId}")]
-        public async Task<IActionResult> EditTeacherProfile([FromForm] Teacher teacher, int teacherId, IFormFile file)
+        [Route("EditTeacherProfile")]
+        public async Task<IActionResult> EditTeacherProfile([FromForm] Teacher teacher, IFormFile file)
         {
-            Teacher teacherById= await _teacherRegisterRepository.GetTeacherById(teacherId);
-            var fileName = teacherById.Picture;
-
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("ErrorMessage:", "You unAuthorize to Get Data of this Teacher");
                 return BadRequest(ModelState);
             }
-            if (teacherId != 0)
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity == null)
             {
-                //teacherById = await _teacherRegisterRepository.GetTeacherById(teacherId);  //GetTeacherPhoneById search
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
+            }
+            IEnumerable<Claim> claims = identity.Claims;
+            var teacherId = claims.Where(p => p.Type == "TeacherId").FirstOrDefault()?.Value;
+            if (teacherId==null)   // check teacher is exists or no
+            {
+                ModelState.AddModelError("ErrorMessage:", "You are not Authanticated");
+                return BadRequest(ModelState);
+            }
+            // teacher in DB
+            var teacherById = await _teacherRegisterRepository.GetTeacherById(int.Parse(teacherId));
+            var fileName = teacherById.Picture;  // old picture
+
+            if (int.Parse(teacherId) != 0)
+            {
                 if (teacherById == null)
                 {
                     return Content("not found , please Check!...");
@@ -172,7 +200,6 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
                             //teacher.Picture = fileName;
                         }
                     }
-                    
                 }
             }
             // for hashing password
@@ -189,13 +216,14 @@ namespace TopProjectITI_int40.Controllers.TeacherControllers
                iterationCount: 10000,
                numBytesRequested: 256 / 8));
             teacher.Password = hashed;
-            await _teacherRegisterRepository.EditTeacherProfile(teacher, teacherId, fileName);
+            await _teacherRegisterRepository.EditTeacherProfile(teacher, teacherById.TeacherId, fileName);
             return Created("TeacherTable", teacherById);
         }
 
+        //Login Teacher
         [HttpPost]
-        [Route("Login")]
-        public async Task<IActionResult> LoginTeacher([FromForm] TeacherViewModel teacherViewModel)
+        [Route("LoginTeacher")]
+        public async Task<IActionResult> LoginTeacher([FromForm] LoginViewModel teacherViewModel)
         {
             if (!ModelState.IsValid)
             {
